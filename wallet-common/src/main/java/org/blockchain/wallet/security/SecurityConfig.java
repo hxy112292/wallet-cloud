@@ -56,11 +56,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, ErrorMessage.UNAUTHORIZED))
                 .and().authorizeRequests()
                 // below path all permitted, needn't to check authorization
-                .antMatchers("/auth/**","/update/**", "/blockchainBrowser/**", "/BTC/**",
-                        "/concept/**", "/email/**", "/exchange/**",
-                        "/fcm/**", "/github/**", "/hotcoin/**",
+                .antMatchers("/auth/**","/update/**", "/blockchainBrowser/**", "/BTC/**", "/BTCTEST/**",
+                        "/concept/**", "/email/**", "/exchange/**", "/LTC/**", "/LTCTEST/**",
+                        "/fcm/**", "/github/**", "/hotcoin/**", "/BCH/**", "/BCHTEST/**",
                         "/hotWeb/**", "/listingLatest/**", "/liveNews/**",
-                        "/test/**", "/turnover/**", "/ETH/**").permitAll()
+                        "/test/**", "/turnover/**", "/ETH/**", "/ETHTEST/**").permitAll()
                 .antMatchers("/**").authenticated()
                 // path start with '/admin' should has role ADMIN or ROOT
                  .antMatchers("/admin/**").hasAnyRole("ADMIN", "ROOT")
