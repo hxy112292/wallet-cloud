@@ -1,6 +1,11 @@
 package org.blockchain.wallet.dto;
 
-public class SochainBroadcast {
+import java.io.Serializable;
+
+/**
+ * @author hxy
+ */
+public class SochainBroadcast implements Serializable {
 
     private String tx_hex;
 

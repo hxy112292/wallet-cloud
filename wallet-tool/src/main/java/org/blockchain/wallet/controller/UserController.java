@@ -18,8 +18,6 @@ public class UserController {
 
     private final UserService userService;
 
-    private final EmailService emailService;
-
     @GetMapping(value = "/info")
     public BaseResponse<User> getUserInfo(@RequestParam Integer userId) {
 

@@ -1,8 +1,12 @@
 package org.blockchain.wallet.dto;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class DNCCoinMarket {
+/**
+ * @author hxy
+ */
+public class DNCCoinMarket implements Serializable {
 
     private BigDecimal market_value_usd;
     private String name;

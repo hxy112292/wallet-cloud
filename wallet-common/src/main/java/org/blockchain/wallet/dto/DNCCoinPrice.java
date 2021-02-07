@@ -1,6 +1,11 @@
 package org.blockchain.wallet.dto;
 
-public class DNCCoinPrice {
+import java.io.Serializable;
+
+/**
+ * @author hxy
+ */
+public class DNCCoinPrice implements Serializable {
 
     private String code;
     private String name;

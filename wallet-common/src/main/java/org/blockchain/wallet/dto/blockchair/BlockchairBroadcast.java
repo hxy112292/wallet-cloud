@@ -1,6 +1,11 @@
 package org.blockchain.wallet.dto.blockchair;
 
-public class BlockchairBroadcast {
+import java.io.Serializable;
+
+/**
+ * @author hxy
+ */
+public class BlockchairBroadcast implements Serializable {
 
     String data;
 

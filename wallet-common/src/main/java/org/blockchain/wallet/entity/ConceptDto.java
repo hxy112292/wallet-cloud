@@ -1,6 +1,11 @@
 package org.blockchain.wallet.entity;
 
-public class ConceptDto {
+import java.io.Serializable;
+
+/**
+ * @author hxy
+ */
+public class ConceptDto implements Serializable {
 
     private String id;
 

@@ -2,6 +2,9 @@ package org.blockchain.wallet.entity;
 
 import java.io.Serializable;
 
+/**
+ * @author hxy
+ */
 public class Fcm implements Serializable {
     private Integer id;
 

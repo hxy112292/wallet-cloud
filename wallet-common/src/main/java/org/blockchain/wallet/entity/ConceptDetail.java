@@ -3,6 +3,9 @@ package org.blockchain.wallet.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * @author hxy
+ */
 public class ConceptDetail implements Serializable {
     private Integer id;
 

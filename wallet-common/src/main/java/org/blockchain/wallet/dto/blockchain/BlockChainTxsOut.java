@@ -1,8 +1,12 @@
 package org.blockchain.wallet.dto.blockchain;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class BlockChainTxsOut {
+/**
+ * @author hxy
+ */
+public class BlockChainTxsOut implements Serializable {
 
     private Long type;
     private Boolean spent;

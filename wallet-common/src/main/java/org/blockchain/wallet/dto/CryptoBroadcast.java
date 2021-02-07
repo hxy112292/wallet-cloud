@@ -1,6 +1,11 @@
 package org.blockchain.wallet.dto;
 
-public class CryptoBroadcast {
+import java.io.Serializable;
+
+/**
+ * @author hxy
+ */
+public class CryptoBroadcast implements Serializable {
     private String hex;
 
     public String getHex() {

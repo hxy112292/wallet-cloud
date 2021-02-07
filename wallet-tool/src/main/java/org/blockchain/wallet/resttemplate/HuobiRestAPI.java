@@ -14,7 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.HashMap;
 import java.util.Map;
 
-@Component
+@org.apache.dubbo.config.annotation.Service
 @RequiredArgsConstructor
 public class HuobiRestAPI implements HuobiIRestAPI {
 

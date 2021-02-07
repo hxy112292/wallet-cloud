@@ -1,6 +1,11 @@
 package org.blockchain.wallet.dto.blockchain;
 
-public class BlockChainWallet {
+import java.io.Serializable;
+
+/**
+ * @author hxy
+ */
+public class BlockChainWallet implements Serializable {
 
     private Long n_tx;
     private Long n_tx_filtered;

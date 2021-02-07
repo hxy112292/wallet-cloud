@@ -21,9 +21,9 @@ import java.util.List;
 public class MonitorUserVIPTask {
 
     @Reference
-    private final UserService userService;
+    UserService userService;
 
-    @Scheduled(cron = "0 */10 * * * ?")
+    @Scheduled(cron = "0 */1 * * * ?")
     public void checkUserVIPStatus() {
         User userDto = new User();
         userDto.setVipTime(new Date());

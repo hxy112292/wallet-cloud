@@ -27,11 +27,14 @@ import java.util.List;
 @EnableScheduling
 public class MonitorExchangeCurrencyTask {
 
-    private final DNCIRestAPI dncIRestAPI;
-    private final BiyouIRestAPI biyouIRestAPI;
+    @Reference
+    DNCIRestAPI dncIRestAPI;
 
     @Reference
-    private final ExchangeCurrencyService exchangeCurrencyService;
+    BiyouIRestAPI biyouIRestAPI;
+
+    @Reference
+    ExchangeCurrencyService exchangeCurrencyService;
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 

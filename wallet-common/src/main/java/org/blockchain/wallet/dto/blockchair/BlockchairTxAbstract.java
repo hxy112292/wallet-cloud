@@ -2,6 +2,7 @@
  * Copyright 2019 bejson.com
  */
 package org.blockchain.wallet.dto.blockchair;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -10,7 +11,7 @@ import java.util.List;
  * @author bejson.com (i@bejson.com)
  * @website http://www.bejson.com/java2pojo/
  */
-public class BlockchairTxAbstract {
+public class BlockchairTxAbstract implements Serializable {
 
     private BlockchairTx transaction;
     private List<BlockchairInputOrOutput> inputs;

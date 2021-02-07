@@ -1,8 +1,12 @@
 package org.blockchain.wallet.dto.blockchain;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class BlockChainTxs {
+/**
+ * @author hxy
+ */
+public class BlockChainTxs implements Serializable {
 
     private String hash;
     private Long ver;

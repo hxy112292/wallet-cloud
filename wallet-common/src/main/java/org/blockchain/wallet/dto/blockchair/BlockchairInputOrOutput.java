@@ -3,13 +3,15 @@
  */
 package org.blockchain.wallet.dto.blockchair;
 
+import java.io.Serializable;
+
 /**
  * Auto-generated: 2019-05-29 10:1:48
  *
  * @author bejson.com (i@bejson.com)
  * @website http://www.bejson.com/java2pojo/
  */
-public class BlockchairInputOrOutput {
+public class BlockchairInputOrOutput implements Serializable {
 
     private long block_id;
     private long transaction_id;

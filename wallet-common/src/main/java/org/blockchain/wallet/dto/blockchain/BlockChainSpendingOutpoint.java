@@ -1,6 +1,11 @@
 package org.blockchain.wallet.dto.blockchain;
 
-public class BlockChainSpendingOutpoint {
+import java.io.Serializable;
+
+/**
+ * @author hxy
+ */
+public class BlockChainSpendingOutpoint implements Serializable {
 
     private Long tx_index;
     private Long n;

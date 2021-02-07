@@ -6,6 +6,9 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+/**
+ * @author hxy
+ */
 @ToString
 public class ExchangeCurrency implements Serializable {
     private Integer id;

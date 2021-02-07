@@ -1,6 +1,11 @@
 package org.blockchain.wallet.dto.blockchain;
 
-public class BlockChainTxsInput {
+import java.io.Serializable;
+
+/**
+ * @author hxy
+ */
+public class BlockChainTxsInput implements Serializable {
 
     private Long sequence;
     private String witness;

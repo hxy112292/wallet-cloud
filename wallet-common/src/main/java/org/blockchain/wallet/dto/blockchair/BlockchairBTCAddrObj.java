@@ -1,7 +1,9 @@
 /**
-  * Copyright 2019 bejson.com 
+  * Copyright 2019 bejson.com
   */
 package org.blockchain.wallet.dto.blockchair;
+
+import java.io.Serializable;
 
 /**
  * Auto-generated: 2019-05-29 9:41:5
@@ -9,7 +11,7 @@ package org.blockchain.wallet.dto.blockchair;
  * @author bejson.com (i@bejson.com)
  * @website http://www.bejson.com/java2pojo/
  */
-public class BlockchairBTCAddrObj {
+public class BlockchairBTCAddrObj implements Serializable {
 
     private BlockchairAddrAbstract blockchairAddrAbstract;
     private BlockchairData data;

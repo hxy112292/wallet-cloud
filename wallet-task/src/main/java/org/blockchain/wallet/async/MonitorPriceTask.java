@@ -30,19 +30,20 @@ import java.util.List;
 @EnableScheduling
 public class MonitorPriceTask {
 
-    private final HuobiIRestAPI huobiIRestAPI;
+    @Reference
+    HuobiIRestAPI huobiIRestAPI;
 
     @Reference
-    private final MonitorPriceService monitorPriceService;
+    MonitorPriceService monitorPriceService;
 
     @Reference
-    private final FcmService fcmService;
+    FcmService fcmService;
 
     @Reference
-    private final EmailService emailService;
+    EmailService emailService;
 
     @Reference
-    private final MonitorCoinService monitorCoinService;
+    MonitorCoinService monitorCoinService;
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 

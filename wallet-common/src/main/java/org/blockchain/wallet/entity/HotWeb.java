@@ -3,6 +3,9 @@ package org.blockchain.wallet.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * @author hxy
+ */
 public class HotWeb implements Serializable {
     private Integer id;
 

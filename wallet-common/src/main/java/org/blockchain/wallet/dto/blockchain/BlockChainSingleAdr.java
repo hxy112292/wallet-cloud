@@ -1,8 +1,12 @@
 package org.blockchain.wallet.dto.blockchain;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class BlockChainSingleAdr {
+/**
+ * @author hxy
+ */
+public class BlockChainSingleAdr implements Serializable {
 
     private String hash160;
     private String address;

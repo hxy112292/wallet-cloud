@@ -2,10 +2,14 @@ package org.blockchain.wallet.dto;
 
 import lombok.ToString;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
+/**
+ * @author hxy
+ */
 @ToString
-public class BiyouExchangeCurrency {
+public class BiyouExchangeCurrency implements Serializable {
 
     private BigDecimal total_reserves_USD;
     private BigDecimal ETH_reserves;

@@ -32,16 +32,17 @@ import java.util.stream.Collectors;
 @EnableScheduling
 public class MonitorOrderTask {
 
-    private final EtherscanIRestAPI etherscanIRestAPI;
+    @Reference
+    EtherscanIRestAPI etherscanIRestAPI;
 
     @Reference
-    private final ReceiverAddressService receiverAddressService;
+    ReceiverAddressService receiverAddressService;
 
     @Reference
-    private final OrderService orderService;
+    OrderService orderService;
 
     @Reference
-    private final UserService userService;
+    UserService userService;
 
     @Scheduled(cron = "0 */2 * * * ?")
     public void checkETHReceiveStatus() {

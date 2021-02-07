@@ -1,8 +1,12 @@
 package org.blockchain.wallet.dto.blockchain;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class BlockChainMultiAdr {
+/**
+ * @author hxy
+ */
+public class BlockChainMultiAdr implements Serializable {
     private List<BlockChainAdr> addresses;
     private BlockChainWallet wallet;
     private List<BlockChainTxs> txs;

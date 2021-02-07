@@ -1,8 +1,12 @@
 package org.blockchain.wallet.dto.blockchain;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class BlockChainPrevOut {
+/**
+ * @author hxy
+ */
+public class BlockChainPrevOut implements Serializable {
 
     private Long type;
     private Boolean spent;

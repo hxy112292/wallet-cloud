@@ -29,16 +29,17 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MonitorBlockchairAddrTask {
 
-    private final BlockChairIRestAPI blockChairIRestAPI;
+    @Reference
+    BlockChairIRestAPI blockChairIRestAPI;
 
     @Reference
-    private final TxHistoryService txHistoryService;
+    TxHistoryService txHistoryService;
 
     @Reference
-    private final FcmService fcmService;
+    FcmService fcmService;
 
     @Reference
-    private final MonitorAddressService monitorAddressService;
+    MonitorAddressService monitorAddressService;
 
 
     @Value("${monitor.address.warn.value}")

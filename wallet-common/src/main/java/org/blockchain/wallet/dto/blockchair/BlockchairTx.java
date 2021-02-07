@@ -3,6 +3,7 @@
  */
 package org.blockchain.wallet.dto.blockchair;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -11,7 +12,7 @@ import java.util.Date;
  * @author bejson.com (i@bejson.com)
  * @website http://www.bejson.com/java2pojo/
  */
-public class BlockchairTx {
+public class BlockchairTx implements Serializable {
 
     private long block_id;
     private long id;

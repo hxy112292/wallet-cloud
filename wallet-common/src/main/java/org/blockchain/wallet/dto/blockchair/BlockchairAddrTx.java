@@ -1,8 +1,12 @@
 package org.blockchain.wallet.dto.blockchair;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class BlockchairAddrTx {
+/**
+ * @author hxy
+ */
+public class BlockchairAddrTx implements Serializable {
 
     long block_id;
     String hash;

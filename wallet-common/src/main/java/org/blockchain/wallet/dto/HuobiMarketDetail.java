@@ -1,6 +1,11 @@
 package org.blockchain.wallet.dto;
 
-public class HuobiMarketDetail {
+import java.io.Serializable;
+
+/**
+ * @author hxy
+ */
+public class HuobiMarketDetail implements Serializable {
 
     String id;
     String low;

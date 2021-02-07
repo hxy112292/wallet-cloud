@@ -19,7 +19,7 @@ import java.util.Map;
 /**
  * @author hxy
  */
-@Component
+@org.apache.dubbo.config.annotation.Service
 @RequiredArgsConstructor
 public class BlockChainRestAPI implements BlockChainIRestAPI {
 
