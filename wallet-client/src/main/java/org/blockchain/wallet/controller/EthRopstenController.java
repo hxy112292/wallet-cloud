@@ -2,7 +2,6 @@ package org.blockchain.wallet.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.blockchain.wallet.resttemplate.EtherscanIRestAPI;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 

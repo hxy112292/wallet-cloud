@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.blockchain.wallet.dto.SochainBroadcast;
 import org.blockchain.wallet.resttemplate.CryptoIRestAPI;
 import org.blockchain.wallet.resttemplate.SochainIRestAPI;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 
