@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.blockchain.wallet.mapper.FcmMapper">
+  <resultMap id="BaseResultMap" type="org.blockchain.wallet.entity.Fcm">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="fcm_token" jdbcType="VARCHAR" property="fcmToken" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, fcm_token
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from fcm
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectBySelective" parameterType="org.blockchain.wallet.entity.Fcm" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from fcm
+    where 1 = 1
+    <if test="id != null">
+      and id = #{id,jdbcType=INTEGER}
+    </if>
+    <if test="userId != null">
+      and user_id = #{userId,jdbcType=INTEGER}
+    </if>
+    <if test="fcmToken != null">
+      and fcm_token = #{fcmToken,jdbcType=VARCHAR}
+    </if>
+  </select>
+  <select id="selectAllTokens" parameterType="org.blockchain.wallet.entity.Fcm" resultType="java.lang.String">
+    select
+     fcm_token
+    from fcm
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from fcm
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.blockchain.wallet.entity.Fcm">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into fcm (user_id, fcm_token)
+    values (#{userId,jdbcType=INTEGER}, #{fcmToken,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.blockchain.wallet.entity.Fcm">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into fcm
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="fcmToken != null">
+        fcm_token,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="fcmToken != null">
+        #{fcmToken,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.blockchain.wallet.entity.Fcm">
+    update fcm
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="fcmToken != null">
+        fcm_token = #{fcmToken,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.blockchain.wallet.entity.Fcm">
+    update fcm
+    set user_id = #{userId,jdbcType=INTEGER},
+      fcm_token = #{fcmToken,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

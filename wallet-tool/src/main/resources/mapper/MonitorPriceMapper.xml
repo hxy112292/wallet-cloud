@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.blockchain.wallet.mapper.MonitorPriceMapper">
+  <resultMap id="BaseResultMap" type="org.blockchain.wallet.entity.MonitorPrice">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="up_price" jdbcType="DOUBLE" property="upPrice" />
+    <result column="down_price" jdbcType="DOUBLE" property="downPrice" />
+    <result column="up_change_percent" jdbcType="DOUBLE" property="upChangePercent" />
+    <result column="down_change_percent" jdbcType="DOUBLE" property="downChangePercent" />
+    <result column="notification" jdbcType="VARCHAR" property="notification" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="sms" jdbcType="VARCHAR" property="sms" />
+    <result column="voice" jdbcType="VARCHAR" property="voice" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, code, user_id, up_price, down_price, up_change_percent, down_change_percent, 
+    notification, email, sms, voice, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from monitor_price
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectBySelective" parameterType="org.blockchain.wallet.entity.MonitorPrice" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from monitor_price
+    where 1 = 1
+    <if test="code != null">
+      and code = #{code,jdbcType=VARCHAR}
+    </if>
+    <if test="userId != null">
+      and user_id = #{userId,jdbcType=INTEGER}
+    </if>
+    <if test="upPrice != null">
+      and up_price = #{upPrice,jdbcType=DOUBLE}
+    </if>
+    <if test="downPrice != null">
+      and down_price = #{downPrice,jdbcType=DOUBLE}
+    </if>
+    <if test="upChangePercent != null">
+      and up_change_percent = #{upChangePercent,jdbcType=DOUBLE}
+    </if>
+    <if test="downChangePercent != null">
+      and down_change_percent = #{downChangePercent,jdbcType=DOUBLE}
+    </if>
+    <if test="notification != null">
+      and notification = #{notification,jdbcType=VARCHAR}
+    </if>
+    <if test="voice != null">
+      and voice = #{voice,jdbcType=VARCHAR}
+    </if>
+    <if test="sms != null">
+      and sms = #{sms,jdbcType=VARCHAR}
+    </if>
+    <if test="email != null">
+      and email = #{email,jdbcType=VARCHAR}
+    </if>
+    order by create_time DESC
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from monitor_price
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByOneMonth" parameterType="java.lang.Integer">
+    delete from monitor_price
+    where TO_DAYS(NOW())-TO_DAYS(update_time)>30
+  </delete>
+  <insert id="insert" parameterType="org.blockchain.wallet.entity.MonitorPrice">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into monitor_price (code, user_id, up_price, 
+      down_price, up_change_percent, down_change_percent, 
+      notification, email, sms, 
+      voice, create_time, update_time
+      )
+    values (#{code,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{upPrice,jdbcType=DOUBLE}, 
+      #{downPrice,jdbcType=DOUBLE}, #{upChangePercent,jdbcType=DOUBLE}, #{downChangePercent,jdbcType=DOUBLE}, 
+      #{notification,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{sms,jdbcType=VARCHAR}, 
+      #{voice,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.blockchain.wallet.entity.MonitorPrice">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into monitor_price
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="code != null">
+        code,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="upPrice != null">
+        up_price,
+      </if>
+      <if test="downPrice != null">
+        down_price,
+      </if>
+      <if test="upChangePercent != null">
+        up_change_percent,
+      </if>
+      <if test="downChangePercent != null">
+        down_change_percent,
+      </if>
+      <if test="notification != null">
+        notification,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="sms != null">
+        sms,
+      </if>
+      <if test="voice != null">
+        voice,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="upPrice != null">
+        #{upPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="downPrice != null">
+        #{downPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="upChangePercent != null">
+        #{upChangePercent,jdbcType=DOUBLE},
+      </if>
+      <if test="downChangePercent != null">
+        #{downChangePercent,jdbcType=DOUBLE},
+      </if>
+      <if test="notification != null">
+        #{notification,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="sms != null">
+        #{sms,jdbcType=VARCHAR},
+      </if>
+      <if test="voice != null">
+        #{voice,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.blockchain.wallet.entity.MonitorPrice">
+    update monitor_price
+    <set>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="upPrice != null">
+        up_price = #{upPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="downPrice != null">
+        down_price = #{downPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="upChangePercent != null">
+        up_change_percent = #{upChangePercent,jdbcType=DOUBLE},
+      </if>
+      <if test="downChangePercent != null">
+        down_change_percent = #{downChangePercent,jdbcType=DOUBLE},
+      </if>
+      <if test="notification != null">
+        notification = #{notification,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="sms != null">
+        sms = #{sms,jdbcType=VARCHAR},
+      </if>
+      <if test="voice != null">
+        voice = #{voice,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.blockchain.wallet.entity.MonitorPrice">
+    update monitor_price
+    set code = #{code,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      up_price = #{upPrice,jdbcType=DOUBLE},
+      down_price = #{downPrice,jdbcType=DOUBLE},
+      up_change_percent = #{upChangePercent,jdbcType=DOUBLE},
+      down_change_percent = #{downChangePercent,jdbcType=DOUBLE},
+      notification = #{notification,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      sms = #{sms,jdbcType=VARCHAR},
+      voice = #{voice,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
