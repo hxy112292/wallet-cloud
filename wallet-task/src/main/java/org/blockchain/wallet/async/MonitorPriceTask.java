@@ -27,22 +27,22 @@ import java.util.List;
 @EnableScheduling
 public class MonitorPriceTask {
 
-    @Reference
+    @Reference(check = false)
     HuobiIRestAPI huobiIRestAPI;
 
-    @Reference
+    @Reference(check = false)
     MonitorPriceService monitorPriceService;
 
-    @Reference
+    @Reference(check = false)
     FcmService fcmService;
 
-    @Reference
+    @Reference(check = false)
     EmailService emailService;
 
-    @Reference
+    @Reference(check = false)
     UserService userService;
 
-    @Reference
+    @Reference(check = false)
     MonitorCoinService monitorCoinService;
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());

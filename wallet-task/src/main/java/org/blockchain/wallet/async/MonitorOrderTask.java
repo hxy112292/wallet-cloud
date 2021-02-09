@@ -32,16 +32,16 @@ import java.util.stream.Collectors;
 @EnableScheduling
 public class MonitorOrderTask {
 
-    @Reference
+    @Reference(check = false)
     EtherscanIRestAPI etherscanIRestAPI;
 
-    @Reference
+    @Reference(check = false)
     ReceiverAddressService receiverAddressService;
 
-    @Reference
+    @Reference(check = false)
     OrderService orderService;
 
-    @Reference
+    @Reference(check = false)
     UserService userService;
 
     @Scheduled(cron = "0 */2 * * * ?")

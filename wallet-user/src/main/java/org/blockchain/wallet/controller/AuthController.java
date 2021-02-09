@@ -22,7 +22,7 @@ public class AuthController {
 
     private final UserService userService;
 
-    @Reference
+    @Reference(check = false)
     EmailService emailService;
 
     @PostMapping(value = "/login")

@@ -20,7 +20,7 @@ import java.util.List;
 @EnableScheduling
 public class MonitorUserVIPTask {
 
-    @Reference
+    @Reference(check = false)
     UserService userService;
 
     @Scheduled(cron = "0 */1 * * * ?")

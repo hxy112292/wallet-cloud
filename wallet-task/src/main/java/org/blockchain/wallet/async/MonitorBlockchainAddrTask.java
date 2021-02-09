@@ -35,16 +35,16 @@ import java.util.List;
 @EnableScheduling
 public class MonitorBlockchainAddrTask {
 
-    @Reference
+    @Reference(check = false)
     BlockChainIRestAPI blockChainIRestAPI;
 
-    @Reference
+    @Reference(check = false)
     TxHistoryService txHistoryService;
 
-    @Reference
+    @Reference(check = false)
     FcmService fcmService;
 
-    @Reference
+    @Reference(check = false)
     MonitorAddressService monitorAddressService;
 
     @Value("${monitor.address.txHistory.maxsize}")
