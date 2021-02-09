@@ -7,10 +7,7 @@ import org.blockchain.wallet.dto.HuobiMarketDetail;
 import org.blockchain.wallet.entity.MonitorCoin;
 import org.blockchain.wallet.entity.MonitorPrice;
 import org.blockchain.wallet.resttemplate.HuobiIRestAPI;
-import org.blockchain.wallet.service.EmailService;
-import org.blockchain.wallet.service.FcmService;
-import org.blockchain.wallet.service.MonitorCoinService;
-import org.blockchain.wallet.service.MonitorPriceService;
+import org.blockchain.wallet.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
@@ -41,6 +38,9 @@ public class MonitorPriceTask {
 
     @Reference
     EmailService emailService;
+
+    @Reference
+    UserService userService;
 
     @Reference
     MonitorCoinService monitorCoinService;
@@ -99,23 +99,24 @@ public class MonitorPriceTask {
                 monitorPriceService.updateBySelective(monitorPrice);
             }
             if(monitorPrice.getEmail().equals(Constant.NOTIFICATION_EMAIL_TRUE)) {
+                String email  = userService.findUserById(monitorPrice.getUserId()).getEmail();
                 if(monitorPrice.getUpPrice() != null && monitorPrice.getUpPrice() <= Double.valueOf(huobiMarketDetail.getClose())) {
-                    emailService.sendEmailByUid(monitorPrice.getUserId(), "价格预警",
+                    emailService.sendSimpleEmail(email, "价格预警",
                             monitorPrice.getCode() + "的价格已上涨至" + monitorPrice.getUpPrice());
                     monitorPrice.setEmail(Constant.NOTIFICATION_EMAIL_FALSE);
                 }
                 else if(monitorPrice.getDownPrice() != null && monitorPrice.getDownPrice() >= Double.valueOf(huobiMarketDetail.getClose())) {
-                    emailService.sendEmailByUid(monitorPrice.getUserId(), "价格预警",
+                    emailService.sendSimpleEmail(email, "价格预警",
                             monitorPrice.getCode() + "的价格已下跌至" + monitorPrice.getDownPrice());
                     monitorPrice.setEmail(Constant.NOTIFICATION_EMAIL_FALSE);
                 }
                 else if(monitorPrice.getUpChangePercent() != null && monitorPrice.getUpChangePercent() <= changePercent) {
-                    emailService.sendEmailByUid(monitorPrice.getUserId(), "价格预警",
+                    emailService.sendSimpleEmail(email, "价格预警",
                             monitorPrice.getCode() + "的价格24h上涨幅度已达到" + monitorPrice.getUpChangePercent() + "%");
                     monitorPrice.setEmail(Constant.NOTIFICATION_EMAIL_FALSE);
                 }
                 else if(monitorPrice.getDownChangePercent() != null && monitorPrice.getDownChangePercent() >= changePercent) {
-                    emailService.sendEmailByUid(monitorPrice.getUserId(), "价格预警",
+                    emailService.sendSimpleEmail(email, "价格预警",
                             monitorPrice.getCode() + "的价格24h下跌幅度已达到" + monitorPrice.getDownChangePercent() + "%");
                     monitorPrice.setEmail(Constant.NOTIFICATION_EMAIL_FALSE);
                 }

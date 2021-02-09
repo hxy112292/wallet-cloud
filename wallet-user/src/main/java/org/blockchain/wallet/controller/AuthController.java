@@ -1,6 +1,7 @@
 package org.blockchain.wallet.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.dubbo.config.annotation.Reference;
 import org.blockchain.wallet.base.BaseResponse;
 import org.blockchain.wallet.base.ResultResponse;
 import org.blockchain.wallet.entity.User;
@@ -20,7 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     private final UserService userService;
-    private final EmailService emailService;
+
+    @Reference
+    EmailService emailService;
 
     @PostMapping(value = "/login")
     public BaseResponse<User> login(@RequestBody User user) {

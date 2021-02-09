@@ -19,8 +19,8 @@ public class EmailController {
     private final EmailService emailService;
 
     @GetMapping(value = "/send")
-    public void sendEmail(@RequestParam int userId, @RequestParam String subject, @RequestParam String text) {
-        emailService.sendEmailByUid(userId, subject, text);
+    public void sendEmail(@RequestParam String email, @RequestParam String subject, @RequestParam String text) {
+        emailService.sendSimpleEmail(email, subject, text);
 
     }
 }

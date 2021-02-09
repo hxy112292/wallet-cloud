@@ -13,6 +13,8 @@
         <module>wallet-client</module>
         <module>wallet-tool</module>
         <module>wallet-task</module>
+        <module>wallet-communication</module>
+        <module>wallet-user</module>
     </modules>
 
     <description>Demo project for Spring Boot</description>

@@ -2,12 +2,10 @@ package org.blockchain.wallet.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.blockchain.wallet.service.EmailService;
-import org.blockchain.wallet.service.UserService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,8 +23,6 @@ public class EmailServiceImpl implements EmailService {
     String fromEmailAdr;
 
     private final JavaMailSenderImpl javaMailSender;
-
-    private final UserService userService;
 
     @Override
     @Async
@@ -48,12 +44,5 @@ public class EmailServiceImpl implements EmailService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void sendEmailByUid(int userId, String subject, String text) {
-
-        String email = userService.findUserById(userId).getEmail();
-        sendSimpleEmail(email, subject, text);
     }
 }
