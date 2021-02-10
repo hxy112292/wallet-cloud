@@ -15,6 +15,9 @@
         <module>wallet-task</module>
         <module>wallet-communication</module>
         <module>wallet-user</module>
+        <module>wallet-system</module>
+        <module>wallet-order</module>
+        <module>wallet-gateway</module>
     </modules>
 
     <description>Demo project for Spring Boot</description>

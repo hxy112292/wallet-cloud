@@ -15,7 +15,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.HashMap;
 import java.util.List;
 
-@Component
+@org.apache.dubbo.config.annotation.Service
 @RequiredArgsConstructor
 public class CryptoRestAPI implements CryptoIRestAPI {
 

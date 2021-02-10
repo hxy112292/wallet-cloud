@@ -15,7 +15,7 @@ import java.util.HashMap;
 /**
  * @author hxy
  */
-@Component
+@org.apache.dubbo.config.annotation.Service
 @RequiredArgsConstructor
 public class SochainRestAPI implements SochainIRestAPI {
 
