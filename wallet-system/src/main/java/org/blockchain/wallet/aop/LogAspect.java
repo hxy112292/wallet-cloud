@@ -29,7 +29,7 @@ public class LogAspect {
     /**
      * ..表示包及子包 该方法代表controller层的所有方法  TODO 路径需要根据自己项目定义
      */
-    @Pointcut("execution(public * org.blockchain.wallet.controller..*.*(..))")
+    @Pointcut("execution(public * org.blockchain.wallet.controller..*.*(..)) && !execution(* org.blockchain.wallet.controller.AppUpdateController.*(..)) ")
     public void controllerMethod() {
     }
 
