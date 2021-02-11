@@ -7,7 +7,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 /**
  * @author hxy
  */
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "org.blockchain.wallet")
 @EnableDiscoveryClient
 public class WalletGatewayApplication {
 
