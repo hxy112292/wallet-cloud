@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.blockchain.wallet.entity.MonitorAddress;
 import org.blockchain.wallet.mapper.MonitorAddressMapper;
 import org.blockchain.wallet.service.MonitorAddressService;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,5 +28,20 @@ public class MonitorAddressServiceImpl implements MonitorAddressService {
     @Override
     public MonitorAddress selectByPrimaryKey(int id) {
         return monitorAddressMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public int insert(MonitorAddress monitorAddress) {
+        return monitorAddressMapper.insertSelective(monitorAddress);
+    }
+
+    @Override
+    public int update(MonitorAddress monitorAddress) {
+        return monitorAddressMapper.updateByPrimaryKeySelective(monitorAddress);
+    }
+
+    @Override
+    public int delete(Integer id) {
+        return monitorAddressMapper.deleteByPrimaryKey(id);
     }
 }

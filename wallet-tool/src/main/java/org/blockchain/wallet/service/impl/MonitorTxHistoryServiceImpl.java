@@ -28,6 +28,11 @@ public class MonitorTxHistoryServiceImpl implements MonitorTxHistoryService {
     }
 
     @Override
+    public Page<MonitorTxHistory> pageByUserId(PageDto pageDto) {
+        return txHistoryMapper.selectByUserId(pageDto.putParam().getParamAsMap());
+    }
+
+    @Override
     public Page<MonitorTxHistory> pageBySelective(PageDto pageDto) {
         return txHistoryMapper.selectBySelective(pageDto.putParam().getParamAsMap());
     }

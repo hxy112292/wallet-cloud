@@ -46,6 +46,17 @@
     </if>
     order by monitor_tx_history.create_time desc
   </select>
+  <select id="selectByUserId" parameterType="map" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Address_Column_List" />
+    from monitor_tx_history
+    left join (select tag, address from monitor_address) as addr on addr.address = monitor_tx_history.address
+    where
+    monitor_tx_history.address in (select monitor_address.address from monitor_address where user_id = #{userId, jdbcType=INTEGER})
+    order by monitor_tx_history.create_time desc
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from monitor_tx_history
     where id = #{id,jdbcType=INTEGER}

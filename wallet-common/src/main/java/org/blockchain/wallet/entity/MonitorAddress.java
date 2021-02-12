@@ -28,5 +28,13 @@ public class MonitorAddress implements Serializable {
 
     private Date updateTime;
 
+    private String notification;
+
+    private String email;
+
+    private String sms;
+
+    private String phone;
+
     private static final long serialVersionUID = 1L;
 }

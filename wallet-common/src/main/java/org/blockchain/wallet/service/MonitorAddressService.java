@@ -13,4 +13,10 @@ public interface MonitorAddressService {
     List<MonitorAddress> selectBySelective(MonitorAddress monitorAddress);
 
     MonitorAddress selectByPrimaryKey(int id);
+
+    int insert(MonitorAddress monitorAddress);
+
+    int update(MonitorAddress monitorAddress);
+
+    int delete(Integer id);
 }

@@ -15,6 +15,8 @@ public interface MonitorTxHistoryService {
 
     List<MonitorTxHistory> selectBySelective(MonitorTxHistory txHistory);
 
+    Page<MonitorTxHistory> pageByUserId(PageDto pageDto);
+
     int insert(MonitorTxHistory txHistory);
 
     int deleteByPrimaryKey(int id);

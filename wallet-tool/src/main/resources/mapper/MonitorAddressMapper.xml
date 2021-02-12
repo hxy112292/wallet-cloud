@@ -9,9 +9,14 @@
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="notification" jdbcType="VARCHAR" property="notification" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="sms" jdbcType="VARCHAR" property="sms" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, address, symbol, tag, user_id, create_time, update_time
+    id, address, symbol, tag, user_id, create_time, update_time, notification, email,
+    sms, phone
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
@@ -49,11 +54,13 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into monitor_address (address, symbol, tag,
-      user_id, create_time, update_time
-      )
+      user_id, create_time, update_time,
+      notification, email, sms,
+      phone)
     values (#{address,jdbcType=VARCHAR}, #{symbol,jdbcType=VARCHAR}, #{tag,jdbcType=VARCHAR},
-      #{userId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
-      )
+      #{userId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
+      #{notification,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{sms,jdbcType=VARCHAR},
+      #{phone,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="org.blockchain.wallet.entity.MonitorAddress">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -79,6 +86,18 @@
       <if test="updateTime != null">
         update_time,
       </if>
+      <if test="notification != null">
+        notification,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="sms != null">
+        sms,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="address != null">
@@ -98,6 +117,18 @@
       </if>
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="notification != null">
+        #{notification,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="sms != null">
+        #{sms,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -122,6 +153,18 @@
       <if test="updateTime != null">
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="notification != null">
+        notification = #{notification,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="sms != null">
+        sms = #{sms,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -132,7 +175,11 @@
       tag = #{tag,jdbcType=VARCHAR},
       user_id = #{userId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      notification = #{notification,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      sms = #{sms,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

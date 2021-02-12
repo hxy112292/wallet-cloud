@@ -24,4 +24,6 @@ public interface MonitorTxHistoryMapper {
     Page<MonitorTxHistory> selectBySelective(Map<String, Object> param);
 
     List<MonitorTxHistory> selectBySelective(MonitorTxHistory record);
+
+    Page<MonitorTxHistory> selectByUserId(Map<String, Object> param);
 }

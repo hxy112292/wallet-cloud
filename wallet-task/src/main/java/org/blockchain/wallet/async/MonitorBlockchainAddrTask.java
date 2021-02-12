@@ -3,18 +3,16 @@ package org.blockchain.wallet.async;
 import com.alibaba.fastjson.JSONObject;
 import lombok.RequiredArgsConstructor;
 import org.apache.dubbo.config.annotation.Reference;
+import org.blockchain.wallet.constant.Constant;
 import org.blockchain.wallet.dto.PageDto;
-import org.blockchain.wallet.entity.MonitorAddress;
-import org.blockchain.wallet.dto.blockchain.BlockChainSingleAdr;
 import org.blockchain.wallet.dto.blockchain.BlockChainTxs;
 import org.blockchain.wallet.dto.blockchain.BlockChainTxsInput;
 import org.blockchain.wallet.dto.blockchain.BlockChainTxsOut;
+import org.blockchain.wallet.entity.MonitorAddress;
 import org.blockchain.wallet.entity.MonitorTxHistory;
 import org.blockchain.wallet.resttemplate.BlockChainIRestAPI;
 import org.blockchain.wallet.resttemplate.SochainIRestAPI;
-import org.blockchain.wallet.service.FcmService;
-import org.blockchain.wallet.service.MonitorAddressService;
-import org.blockchain.wallet.service.MonitorTxHistoryService;
+import org.blockchain.wallet.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,6 +26,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Instant;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -54,6 +53,12 @@ public class MonitorBlockchainAddrTask {
 
     @Reference(check = false)
     MonitorAddressService monitorAddressService;
+
+    @Reference(check = false)
+    UserService userService;
+
+    @Reference(check = false)
+    EmailService emailService;
 
     @Value("${monitor.address.txHistory.maxsize}")
     int txMaxSize;
@@ -89,16 +94,16 @@ public class MonitorBlockchainAddrTask {
     public void monitorBlockChainAddress() {
         MonitorAddress findMonitorAddressCoindition = new MonitorAddress();
         findMonitorAddressCoindition.setSymbol("BTC");
-        List<String> addressList = monitorAddressService.selectBySelective(findMonitorAddressCoindition).stream().map((item)->item.getAddress()).collect(Collectors.toList());
+        List<MonitorAddress> monitorAddressList = monitorAddressService.selectBySelective(findMonitorAddressCoindition);
         Instant instant = Instant.now();
         try {
-            monitorBTCByBlockChain(addressList, instant.getEpochSecond());
+            monitorBTCByBlockChain(monitorAddressList, instant.getEpochSecond());
         } catch (Exception e) {
             logger.error(e.getMessage());
         }
     }
 
-    public void monitorBTCByBlockChain(List<String> addressList, Long currentTime) {
+    public void monitorBTCByBlockChain(List<MonitorAddress> monitorAddressList, Long currentTime) {
 
         PageDto pageDto = new PageDto();
         pageDto.setPageNum(1);
@@ -118,7 +123,12 @@ public class MonitorBlockchainAddrTask {
             }
         }
 
-        for(String address : addressList) {
+        for(MonitorAddress monitorAddress : monitorAddressList) {
+            String address = monitorAddress.getAddress();
+            String email = null;
+            if(monitorAddress.getUserId() != null) {
+                email = userService.findUserById(monitorAddress.getUserId()).getEmail();
+            }
             for(BlockChainTxs blockChainTx : transactionsAll) {
 
                 Long timeLimit = timeOffset*60*1000L;
@@ -142,11 +152,21 @@ public class MonitorBlockchainAddrTask {
 
                     if(Math.abs(valueChange) >= warnValueInBlockChain) {
                         if(valueChange < 0) {
-                            fcmService.sendAllNotification("大额转账预警", "地址：" + address + "\n转出："+ valueChange + " BTC");
+                            if(monitorAddress.getNotification().equals(Constant.NOTIFICATION_ON)) {
+                                fcmService.sendAllNotification("大额转账预警", "地址：" + address + "\n转出："+ valueChange + " BTC");
+                            }
+                            if(monitorAddress.getEmail().equals(Constant.NOTIFICATION_ON) && email != null) {
+                                emailService.sendSimpleEmail(email, "大额转账预警", "地址：" + address + "\n转出："+ valueChange + " BTC");
+                            }
                             insertTxHistory(blockChainTx.getHash(), "out", address, Math.abs(valueChange) + "", "BTC", new Date(blockChainTx.getTime()*1000));
                         }
                         else {
-                            fcmService.sendAllNotification("大额转账预警", "地址：" + address + "\n转入："+ valueChange + " BTC");
+                            if(monitorAddress.getNotification().equals(Constant.NOTIFICATION_ON)) {
+                                fcmService.sendAllNotification("大额转账预警", "地址：" + address + "\n转入："+ valueChange + " BTC");
+                            }
+                            if(monitorAddress.getEmail().equals(Constant.NOTIFICATION_ON) && email != null) {
+                                emailService.sendSimpleEmail(email, "大额转账预警", "地址：" + address + "\n转入："+ valueChange + " BTC");
+                            }
                             insertTxHistory(blockChainTx.getHash(), "in", address,  Math.abs(valueChange) + "", "BTC", new Date(blockChainTx.getTime()*1000));
                         }
 
@@ -172,5 +192,12 @@ public class MonitorBlockchainAddrTask {
         txHistory.setCreateTime(create_time);
 
         monitorTxHistoryService.insert(txHistory);
+    }
+
+    private List removeDuplicate(List list) {
+        HashSet h = new HashSet(list);
+        list.clear();
+        list.addAll(h);
+        return list;
     }
 }
