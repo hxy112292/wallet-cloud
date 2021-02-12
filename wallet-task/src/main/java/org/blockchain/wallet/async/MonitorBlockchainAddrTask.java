@@ -176,7 +176,7 @@ public class MonitorBlockchainAddrTask {
     }
 
     @Async
-    public void insertTxHistory(String hash, String inOrOut, String address, String amount, String symbol, Date create_time) {
+    public void insertTxHistory(String hash, String inOrOut, String address, String amount, String symbol, Date tradeTime) {
 
         MonitorTxHistory txHistory = new MonitorTxHistory();
         txHistory.setTxHash(hash);
@@ -189,6 +189,7 @@ public class MonitorBlockchainAddrTask {
         txHistory.setAddress(address);
         txHistory.setAmount(amount);
         txHistory.setCreateTime(new Date());
+        txHistory.setTradeTime(tradeTime);
 
         monitorTxHistoryService.insert(txHistory);
     }

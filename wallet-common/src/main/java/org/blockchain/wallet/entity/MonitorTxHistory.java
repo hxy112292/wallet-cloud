@@ -32,5 +32,7 @@ public class MonitorTxHistory implements Serializable {
 
     private Date updateTime;
 
+    private Date tradeTime;
+
     private static final long serialVersionUID = 1L;
 }

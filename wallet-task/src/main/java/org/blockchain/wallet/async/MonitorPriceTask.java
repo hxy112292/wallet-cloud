@@ -40,9 +40,6 @@ public class MonitorPriceTask {
     EmailService emailService;
 
     @Reference(check = false)
-    UserService userService;
-
-    @Reference(check = false)
     MonitorCoinService monitorCoinService;
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -99,24 +96,23 @@ public class MonitorPriceTask {
                 monitorPriceService.updateBySelective(monitorPrice);
             }
             if(monitorPrice.getEmail().equals(Constant.NOTIFICATION_EMAIL_TRUE)) {
-                String email  = userService.findUserById(monitorPrice.getUserId()).getEmail();
                 if(monitorPrice.getUpPrice() != null && monitorPrice.getUpPrice() <= Double.valueOf(huobiMarketDetail.getClose())) {
-                    emailService.sendSimpleEmail(email, "价格预警",
+                    emailService.sendSimpleEmail(monitorPrice.getUserEmail(), "价格预警",
                             monitorPrice.getCode() + "的价格已上涨至" + monitorPrice.getUpPrice());
                     monitorPrice.setEmail(Constant.NOTIFICATION_EMAIL_FALSE);
                 }
                 else if(monitorPrice.getDownPrice() != null && monitorPrice.getDownPrice() >= Double.valueOf(huobiMarketDetail.getClose())) {
-                    emailService.sendSimpleEmail(email, "价格预警",
+                    emailService.sendSimpleEmail(monitorPrice.getUserEmail(), "价格预警",
                             monitorPrice.getCode() + "的价格已下跌至" + monitorPrice.getDownPrice());
                     monitorPrice.setEmail(Constant.NOTIFICATION_EMAIL_FALSE);
                 }
                 else if(monitorPrice.getUpChangePercent() != null && monitorPrice.getUpChangePercent() <= changePercent) {
-                    emailService.sendSimpleEmail(email, "价格预警",
+                    emailService.sendSimpleEmail(monitorPrice.getUserEmail(), "价格预警",
                             monitorPrice.getCode() + "的价格24h上涨幅度已达到" + monitorPrice.getUpChangePercent() + "%");
                     monitorPrice.setEmail(Constant.NOTIFICATION_EMAIL_FALSE);
                 }
                 else if(monitorPrice.getDownChangePercent() != null && monitorPrice.getDownChangePercent() >= changePercent) {
-                    emailService.sendSimpleEmail(email, "价格预警",
+                    emailService.sendSimpleEmail(monitorPrice.getUserEmail(), "价格预警",
                             monitorPrice.getCode() + "的价格24h下跌幅度已达到" + monitorPrice.getDownChangePercent() + "%");
                     monitorPrice.setEmail(Constant.NOTIFICATION_EMAIL_FALSE);
                 }
