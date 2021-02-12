@@ -155,7 +155,7 @@ public class MonitorBlockchainAddrTask {
                             if(monitorAddress.getNotification().equals(Constant.NOTIFICATION_ON)) {
                                 fcmService.sendAllNotification("大额转账预警", "地址：" + address + "\n转出："+ valueChange + " BTC");
                             }
-                            if(monitorAddress.getEmail().equals(Constant.NOTIFICATION_ON) && email != null) {
+                            if(monitorAddress.getEmail().equals(Constant.NOTIFICATION_EMAIL_TRUE) && email != null) {
                                 emailService.sendSimpleEmail(email, "大额转账预警", "地址：" + address + "\n转出："+ valueChange + " BTC");
                             }
                             insertTxHistory(blockChainTx.getHash(), "out", address, Math.abs(valueChange) + "", "BTC", new Date(blockChainTx.getTime()*1000));
@@ -164,7 +164,7 @@ public class MonitorBlockchainAddrTask {
                             if(monitorAddress.getNotification().equals(Constant.NOTIFICATION_ON)) {
                                 fcmService.sendAllNotification("大额转账预警", "地址：" + address + "\n转入："+ valueChange + " BTC");
                             }
-                            if(monitorAddress.getEmail().equals(Constant.NOTIFICATION_ON) && email != null) {
+                            if(monitorAddress.getEmail().equals(Constant.NOTIFICATION_EMAIL_TRUE) && email != null) {
                                 emailService.sendSimpleEmail(email, "大额转账预警", "地址：" + address + "\n转入："+ valueChange + " BTC");
                             }
                             insertTxHistory(blockChainTx.getHash(), "in", address,  Math.abs(valueChange) + "", "BTC", new Date(blockChainTx.getTime()*1000));
