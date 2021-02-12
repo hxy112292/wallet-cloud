@@ -12,6 +12,9 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="trade_time" jdbcType="TIMESTAMP" property="tradeTime" />
   </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="org.blockchain.wallet.entity.MonitorTxHistory">
+    <result column="address_tag" jdbcType="VARCHAR" property="addressTag" />
+  </resultMap>
   <sql id="Base_Column_List">
     monitor_tx_history.id, monitor_tx_history.tx_hash, monitor_tx_history.address, monitor_tx_history.symbol,
     monitor_tx_history.amount, monitor_tx_history.in_or_out, monitor_tx_history.create_time, monitor_tx_history.update_time,
