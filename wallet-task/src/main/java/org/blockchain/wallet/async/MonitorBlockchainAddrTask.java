@@ -155,7 +155,7 @@ public class MonitorBlockchainAddrTask {
                                 fcmService.sendAllNotification("大额转账预警", "地址：" + address + "\n转出："+ valueChange + " BTC");
                             }
                             if(monitorAddress.getEmail().equals(Constant.NOTIFICATION_EMAIL_TRUE) && monitorAddress.getUserEmail() != null) {
-                                emailService.sendSimpleEmail(monitorAddress.getUserEmail(), "大额转账预警", "地址：" + address + "\n转出："+ valueChange + " BTC");
+                                emailService.sendSimpleEmail(monitorAddress.getUserEmail(), "大额转账预警", "地址：" + address + "\n转出："+ valueChange + " BTC\nHash："+blockChainTx.getHash());
                             }
                             insertTxHistory(blockChainTx.getHash(), "out", address, Math.abs(valueChange) + "", "BTC", new Date(blockChainTx.getTime()*1000));
                         }
@@ -164,7 +164,7 @@ public class MonitorBlockchainAddrTask {
                                 fcmService.sendAllNotification("大额转账预警", "地址：" + address + "\n转入："+ valueChange + " BTC");
                             }
                             if(monitorAddress.getEmail().equals(Constant.NOTIFICATION_EMAIL_TRUE) && monitorAddress.getUserEmail() != null) {
-                                emailService.sendSimpleEmail(monitorAddress.getUserEmail(), "大额转账预警", "地址：" + address + "\n转入："+ valueChange + " BTC");
+                                emailService.sendSimpleEmail(monitorAddress.getUserEmail(), "大额转账预警", "地址：" + address + "\n转入："+ valueChange + " BTC\nHash："+blockChainTx.getHash());
                             }
                             insertTxHistory(blockChainTx.getHash(), "in", address,  Math.abs(valueChange) + "", "BTC", new Date(blockChainTx.getTime()*1000));
                         }
@@ -188,7 +188,7 @@ public class MonitorBlockchainAddrTask {
         txHistory.setInOrOut(inOrOut);
         txHistory.setAddress(address);
         txHistory.setAmount(amount);
-        txHistory.setCreateTime(create_time);
+        txHistory.setCreateTime(new Date());
 
         monitorTxHistoryService.insert(txHistory);
     }
