@@ -25,9 +25,7 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Instant;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -53,9 +51,6 @@ public class MonitorBlockchainAddrTask {
 
     @Reference(check = false)
     MonitorAddressService monitorAddressService;
-
-    @Reference(check = false)
-    UserService userService;
 
     @Reference(check = false)
     EmailService emailService;
@@ -115,48 +110,52 @@ public class MonitorBlockchainAddrTask {
         Integer blockHeight = JSONObject.parseObject(networkInfo).getJSONObject("data").getInteger("blocks");
         List<BlockChainTxs> transactionsAll = blockChainIRestAPI.getBlockTxs(blockHeight);
 
-        for(MonitorTxHistory txHistory : txHistoryList) {
-            for(int i=0;i<transactionsAll.size(); i++ ){
-                if(transactionsAll.get(i).getHash().equals(txHistory.getTxHash())) {
-                    transactionsAll.remove(i);
-                }
-            }
-        }
+        transactionsAll = transactionsAll.stream().filter((item) -> !txHistoryList.contains(item.getHash())).collect(Collectors.toList());
+        List<String> addressList = monitorAddressList.stream().map(item -> item.getAddress()).collect(Collectors.toList());
 
-        for(MonitorAddress monitorAddress : monitorAddressList) {
-            String address = monitorAddress.getAddress();
-            String email = null;
-            if(monitorAddress.getUserId() != null) {
-                email = userService.findUserById(monitorAddress.getUserId()).getEmail();
-            }
-            for(BlockChainTxs blockChainTx : transactionsAll) {
-
-                Long timeLimit = timeOffset*60*1000L;
-
-                if(currentTime - blockChainTx.getTime()*1000 <= timeLimit) {
-                    Long inValue = 0L;
-                    for(BlockChainTxsInput blockChainTxsInput : blockChainTx.getInputs()) {
-                        if(blockChainTxsInput.getPrev_out() != null && blockChainTxsInput.getPrev_out().getAddr() != null && blockChainTxsInput.getPrev_out().getAddr().equals(address)) {
-                            inValue += blockChainTxsInput.getPrev_out().getValue();
+        for(BlockChainTxs blockChainTx : transactionsAll) {
+            Map<String, Long> map = new HashMap<>(addressList.size());
+            Long timeLimit = timeOffset*60*1000L;
+            if(currentTime - blockChainTx.getTime()*1000 <= timeLimit) {
+                for(BlockChainTxsInput blockChainTxsInput : blockChainTx.getInputs()) {
+                    if(blockChainTxsInput.getPrev_out() != null && blockChainTxsInput.getPrev_out().getAddr() != null && addressList.contains(blockChainTxsInput.getPrev_out().getAddr())) {
+                        String key = blockChainTx.getHash() + blockChainTxsInput.getPrev_out().getAddr();
+                        Long inValue = map.get(key);
+                        if(inValue == null) {
+                            inValue = -blockChainTxsInput.getPrev_out().getValue();
+                        } else {
+                            inValue -= blockChainTxsInput.getPrev_out().getValue();
                         }
+                        map.put(key, inValue);
                     }
-                    Long outValue = 0L;
-                    for(BlockChainTxsOut blockChainTxsOut : blockChainTx.getOut()) {
-                        if(blockChainTxsOut != null && blockChainTxsOut.getAddr()!= null && blockChainTxsOut.getAddr().equals(address)) {
+                }
+                for(BlockChainTxsOut blockChainTxsOut : blockChainTx.getOut()) {
+                    if(blockChainTxsOut != null && blockChainTxsOut.getAddr()!= null && addressList.contains(blockChainTxsOut.getAddr())) {
+                        String key = blockChainTx.getHash() + blockChainTxsOut.getAddr();
+                        Long outValue =map.get(key);
+                        if(outValue == null) {
+                            outValue = blockChainTxsOut.getValue();
+                        } else {
                             outValue += blockChainTxsOut.getValue();
                         }
+                        map.put(key, outValue);
                     }
-
-                    Long valueChange = outValue - inValue;
+                }
+                for(MonitorAddress monitorAddress : monitorAddressList) {
+                    String address = monitorAddress.getAddress();
+                    String key = blockChainTx.getHash() + address;
+                    Long valueChange = map.get(key);
+                    if(valueChange == null) {
+                        continue;
+                    }
                     valueChange = new BigDecimal(valueChange).divide(new BigDecimal(100000000), 8, RoundingMode.HALF_DOWN).longValue();
-
                     if(Math.abs(valueChange) >= warnValueInBlockChain) {
                         if(valueChange < 0) {
                             if(monitorAddress.getNotification().equals(Constant.NOTIFICATION_ON)) {
                                 fcmService.sendAllNotification("大额转账预警", "地址：" + address + "\n转出："+ valueChange + " BTC");
                             }
-                            if(monitorAddress.getEmail().equals(Constant.NOTIFICATION_EMAIL_TRUE) && email != null) {
-                                emailService.sendSimpleEmail(email, "大额转账预警", "地址：" + address + "\n转出："+ valueChange + " BTC");
+                            if(monitorAddress.getEmail().equals(Constant.NOTIFICATION_EMAIL_TRUE) && monitorAddress.getUserEmail() != null) {
+                                emailService.sendSimpleEmail(monitorAddress.getUserEmail(), "大额转账预警", "地址：" + address + "\n转出："+ valueChange + " BTC");
                             }
                             insertTxHistory(blockChainTx.getHash(), "out", address, Math.abs(valueChange) + "", "BTC", new Date(blockChainTx.getTime()*1000));
                         }
@@ -164,8 +163,8 @@ public class MonitorBlockchainAddrTask {
                             if(monitorAddress.getNotification().equals(Constant.NOTIFICATION_ON)) {
                                 fcmService.sendAllNotification("大额转账预警", "地址：" + address + "\n转入："+ valueChange + " BTC");
                             }
-                            if(monitorAddress.getEmail().equals(Constant.NOTIFICATION_EMAIL_TRUE) && email != null) {
-                                emailService.sendSimpleEmail(email, "大额转账预警", "地址：" + address + "\n转入："+ valueChange + " BTC");
+                            if(monitorAddress.getEmail().equals(Constant.NOTIFICATION_EMAIL_TRUE) && monitorAddress.getUserEmail() != null) {
+                                emailService.sendSimpleEmail(monitorAddress.getUserEmail(), "大额转账预警", "地址：" + address + "\n转入："+ valueChange + " BTC");
                             }
                             insertTxHistory(blockChainTx.getHash(), "in", address,  Math.abs(valueChange) + "", "BTC", new Date(blockChainTx.getTime()*1000));
                         }

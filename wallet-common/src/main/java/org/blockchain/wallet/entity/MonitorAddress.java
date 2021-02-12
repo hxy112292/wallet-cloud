@@ -24,6 +24,8 @@ public class MonitorAddress implements Serializable {
 
     private Integer userId;
 
+    private String userEmail;
+
     private Date createTime;
 
     private Date updateTime;
