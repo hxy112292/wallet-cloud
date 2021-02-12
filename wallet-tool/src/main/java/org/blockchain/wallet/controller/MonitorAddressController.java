@@ -5,12 +5,15 @@ import lombok.RequiredArgsConstructor;
 import org.blockchain.wallet.base.BaseResponse;
 import org.blockchain.wallet.base.PageResponse;
 import org.blockchain.wallet.dto.PageDto;
+import org.blockchain.wallet.dto.blockchain.BlockChainSingleAdr;
+import org.blockchain.wallet.dto.blockchain.BlockChainTxs;
 import org.blockchain.wallet.entity.MonitorAddress;
-import org.blockchain.wallet.entity.TxHistory;
 import org.blockchain.wallet.dto.blockchair.BlockchairAddrAbstract;
+import org.blockchain.wallet.entity.MonitorTxHistory;
+import org.blockchain.wallet.resttemplate.BlockChainIRestAPI;
 import org.blockchain.wallet.resttemplate.BlockChairIRestAPI;
 import org.blockchain.wallet.service.MonitorAddressService;
-import org.blockchain.wallet.service.TxHistoryService;
+import org.blockchain.wallet.service.MonitorTxHistoryService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,23 +34,23 @@ public class MonitorAddressController {
 
     private final MonitorAddressService monitorAddressService;
 
-    private final BlockChairIRestAPI blockChairIRestAPI;
+    private final BlockChainIRestAPI blockChainIRestAPI;
 
-    private final TxHistoryService txHistoryService;
+    private final MonitorTxHistoryService monitorTxHistoryService;
 
     @GetMapping
-    public List<BlockchairAddrAbstract> findSingleAddress(@RequestParam String symbol) {
+    public List<BlockChainSingleAdr> findSingleAddress(@RequestParam String symbol) {
 
         MonitorAddress findMonitorAddress = new MonitorAddress();
         findMonitorAddress.setSymbol(symbol);
         List<MonitorAddress> monitorAddressList =  monitorAddressService.selectBySelective(findMonitorAddress);
-        List<BlockchairAddrAbstract> blockchairAddrAbstracts = new ArrayList<>();
+        List<BlockChainSingleAdr> blockChainSingleAdrList = new ArrayList<>();
 
         for(MonitorAddress monitorAddress : monitorAddressList) {
-            blockchairAddrAbstracts.add(blockChairIRestAPI.getBTCAddress(monitorAddress.getAddress()));
+            blockChainSingleAdrList.add(blockChainIRestAPI.getSingleAddress(monitorAddress.getAddress()));
         }
 
-        return blockchairAddrAbstracts;
+        return blockChainSingleAdrList;
     }
 
     @GetMapping(value = "/address")
@@ -56,11 +59,16 @@ public class MonitorAddressController {
         return monitorAddressService.selectByPrimaryKey(id);
     }
 
+    @GetMapping(value = "/blockTxs")
+    public List<BlockChainTxs> findTxsByBlock(int height) {
+        return blockChainIRestAPI.getBlockTxs(height);
+    }
+
     @GetMapping(value = "/history")
     @PreAuthorize("hasRole('VIP')")
-    public BaseResponse<Page<TxHistory>> getAllTxHistory(PageDto pageDto) {
+    public BaseResponse<Page<MonitorTxHistory>> getAllTxHistory(PageDto pageDto) {
 
-        Page<TxHistory> txHistoryPage = txHistoryService.pageBySelective(pageDto);
+        Page<MonitorTxHistory> txHistoryPage = monitorTxHistoryService.pageBySelective(pageDto);
 
         return new PageResponse<>(txHistoryPage, txHistoryPage.getTotal());
     }

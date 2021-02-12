@@ -13,16 +13,12 @@ import java.util.Date;
 @Getter
 @Setter
 @ToString
-public class MonitorAddress implements Serializable {
+public class MonitorBlock implements Serializable {
     private Integer id;
 
-    private String address;
+    private Long blockHeight;
 
     private String symbol;
-
-    private String tag;
-
-    private Integer userId;
 
     private Date createTime;
 

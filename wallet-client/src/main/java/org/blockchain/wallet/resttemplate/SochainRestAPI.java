@@ -197,4 +197,13 @@ public class SochainRestAPI implements SochainIRestAPI {
 
         return response.getBody();
     }
+
+    @Override
+    public String getBTCNetWork() {
+        String url = rootUrl + "/api/v2/get_info/BTC";
+
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, null, String.class, new HashMap<>());
+
+        return response.getBody();
+    }
 }

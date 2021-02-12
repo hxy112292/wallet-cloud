@@ -34,4 +34,6 @@ public interface SochainIRestAPI {
     String getBTCUnSpentTxInfo(String address);
 
     String broadcastBTC(SochainBroadcast sochainBroadcast);
+
+    String getBTCNetWork();
 }

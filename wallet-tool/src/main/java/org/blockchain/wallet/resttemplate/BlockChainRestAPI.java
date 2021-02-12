@@ -1,18 +1,19 @@
 package org.blockchain.wallet.resttemplate;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import lombok.RequiredArgsConstructor;
 import org.blockchain.wallet.dto.blockchain.BlockChainSingleAdr;
+import org.blockchain.wallet.dto.blockchain.BlockChainTxs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -44,6 +45,28 @@ public class BlockChainRestAPI implements BlockChainIRestAPI {
             return blockChainSingleAdr;
         } else {
             logger.info("getSingleAddress failed");
+            return null;
+        }
+    }
+
+    @Override
+    public List<BlockChainTxs> getBlockTxs(Integer height) {
+        String url =rootUrl + "/block-height/" + height + "?format={format}";
+
+        Map<String, Object> map = new HashMap<>();
+
+        map.put("format", "json");
+
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, null, String.class, map);
+
+        if(response.getStatusCode().equals(HttpStatus.OK)) {
+            JSONObject result = JSONObject.parseObject(response.getBody());
+            JSONArray blocks = result.getJSONArray("blocks");
+            JSONArray txs = blocks.getJSONObject(0).getJSONArray("tx");
+            List<BlockChainTxs> blockChainTxsList = JSONArray.parseArray(txs.toJSONString(), BlockChainTxs.class);
+            return blockChainTxsList;
+        } else {
+            logger.info("getBlockTxs failed");
             return null;
         }
     }

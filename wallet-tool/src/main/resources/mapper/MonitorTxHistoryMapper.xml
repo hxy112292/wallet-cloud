@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.blockchain.wallet.mapper.TxHistoryMapper">
-  <resultMap id="BaseResultMap" type="org.blockchain.wallet.entity.TxHistory">
+<mapper namespace="org.blockchain.wallet.mapper.MonitorTxHistoryMapper">
+  <resultMap id="BaseResultMap" type="org.blockchain.wallet.entity.MonitorTxHistory">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="tx_hash" jdbcType="VARCHAR" property="txHash" />
     <result column="address" jdbcType="VARCHAR" property="address" />
@@ -11,101 +11,61 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="org.blockchain.wallet.entity.TxHistory">
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="org.blockchain.wallet.entity.MonitorTxHistory">
     <result column="address_tag" jdbcType="VARCHAR" property="addressTag" />
   </resultMap>
   <sql id="Base_Column_List">
-    tx_history.id, tx_history.tx_hash, tx_history.address, tx_history.symbol, tx_history.amount, tx_history.in_or_out,
-    tx_history.create_time, tx_history.update_time
+    monitor_tx_history.id, monitor_tx_history.tx_hash, monitor_tx_history.address, monitor_tx_history.symbol,
+    monitor_tx_history.amount, monitor_tx_history.in_or_out, monitor_tx_history.create_time, monitor_tx_history.update_time
   </sql>
   <sql id="Address_Column_List">
-    address.tag as address_tag
+    addr.tag as address_tag
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
     select
     <include refid="Base_Column_List" />
     ,
     <include refid="Address_Column_List" />
-    from tx_history
-    left join (select tag, address from monitor_address) as address on address.address = tx_history.address
-    where tx_history.id = #{id,jdbcType=INTEGER}
+    from monitor_tx_history
+    left join (select tag, address from monitor_address) as addr on addr.address = monitor_tx_history.address
+    where monitor_tx_history.id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectBySelective" parameterType="map" resultMap="ResultMapWithBLOBs">
     select
     <include refid="Base_Column_List" />
     ,
     <include refid="Address_Column_List" />
-    from tx_history
-    left join (select tag, address from monitor_address) as address on address.address = tx_history.address
+    from monitor_tx_history
+    left join (select tag, address from monitor_address) as addr on addr.address = monitor_tx_history.address
     where 1 = 1
     <if test="symbol != null">
-      and tx_history.symbol = #{symbol,jdbcType=VARCHAR}
+      and monitor_tx_history.symbol = #{symbol,jdbcType=VARCHAR}
     </if>
     <if test="txHash != null">
-      and tx_history.tx_hash = #{txHash,jdbcType=VARCHAR}
+      and monitor_tx_history.tx_hash = #{txHash,jdbcType=VARCHAR}
     </if>
-    order by tx_history.create_time desc
-  </select>
-  <select id="selectOldest" parameterType="org.blockchain.wallet.entity.TxHistory" resultMap="ResultMapWithBLOBs">
-    select
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Address_Column_List" />
-    from tx_history
-    left join (select tag, address from monitor_address) as address on address.address = tx_history.address
-    where 1 = 1
-    <if test="symbol != null">
-      and tx_history.symbol = #{symbol,jdbcType=VARCHAR}
-    </if>
-    <if test="txHash != null">
-      and tx_history.tx_hash = #{txHash,jdbcType=VARCHAR}
-    </if>
-    order by tx_history.create_time asc limit 1
-  </select>
-  <select id="selectCount" parameterType="org.blockchain.wallet.entity.TxHistory" resultType="java.lang.Integer">
-    select
-    count(*)
-    from tx_history
-    where 1 = 1
-    <if test="symbol != null">
-      and symbol = #{symbol,jdbcType=VARCHAR}
-    </if>
+    order by monitor_tx_history.create_time desc
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from tx_history
+    delete from monitor_tx_history
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteAll" parameterType="java.lang.Integer">
-    delete from tx_history
-    where 1 = 1
-    <if test="symbol != null">
-      and symbol = #{symbol,jdbcType=VARCHAR}
-    </if>
-  </delete>
-  <delete id="deleteByCreateTime" parameterType="org.blockchain.wallet.entity.TxHistory">
-    delete from tx_history
-    where 1 = 1
-    <if test="symbol != null">
-      and symbol = #{symbol,jdbcType=VARCHAR}
-    </if>
-    order by create_time asc limit 1
-  </delete>
-  <insert id="insert" parameterType="org.blockchain.wallet.entity.TxHistory">
+  <insert id="insert" parameterType="org.blockchain.wallet.entity.MonitorTxHistory">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into tx_history (tx_hash, address, symbol,
+    insert into monitor_tx_history (tx_hash, address, symbol,
       amount, in_or_out, create_time,
       update_time)
     values (#{txHash,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{symbol,jdbcType=VARCHAR},
       #{amount,jdbcType=VARCHAR}, #{inOrOut,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
       #{updateTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="org.blockchain.wallet.entity.TxHistory">
+  <insert id="insertSelective" parameterType="org.blockchain.wallet.entity.MonitorTxHistory">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into tx_history
+    insert into monitor_tx_history
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="txHash != null">
         tx_hash,
@@ -153,8 +113,8 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="org.blockchain.wallet.entity.TxHistory">
-    update tx_history
+  <update id="updateByPrimaryKeySelective" parameterType="org.blockchain.wallet.entity.MonitorTxHistory">
+    update monitor_tx_history
     <set>
       <if test="txHash != null">
         tx_hash = #{txHash,jdbcType=VARCHAR},
@@ -180,8 +140,8 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="org.blockchain.wallet.entity.TxHistory">
-    update tx_history
+  <update id="updateByPrimaryKey" parameterType="org.blockchain.wallet.entity.MonitorTxHistory">
+    update monitor_tx_history
     set tx_hash = #{txHash,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR},
       symbol = #{symbol,jdbcType=VARCHAR},

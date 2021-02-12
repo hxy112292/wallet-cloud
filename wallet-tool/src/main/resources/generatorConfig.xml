@@ -82,12 +82,12 @@
 <!--            <columnOverride column="role" javaType="java.util.List" jdbcType="VARCHAR"-->
 <!--                            typeHandler="org.blockchain.wallet.typehandler.ListTypeHandler"/>-->
 <!--        </table>-->
-        <table tableName="wallet_order" domainObjectName="Order" enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-            <columnOverride column="product_list" javaType="java.util.List" jdbcType="VARCHAR"
-                            typeHandler="org.blockchain.wallet.typehandler.ListTypeHandler"/>
-        </table>
+<!--        <table tableName="wallet_order" domainObjectName="Order" enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">-->
+<!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+<!--            <columnOverride column="product_list" javaType="java.util.List" jdbcType="VARCHAR"-->
+<!--                            typeHandler="org.blockchain.wallet.typehandler.ListTypeHandler"/>-->
+<!--        </table>-->
 <!--        <table tableName="wallet_product" domainObjectName="Product" enableCountByExample="false" enableUpdateByExample="false"-->
 <!--               enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">-->
 <!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
@@ -98,5 +98,17 @@
 <!--               enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">-->
 <!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
 <!--        </table>-->
+<!--        <table tableName="monitor_tx_history" enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">-->
+<!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+<!--        </table>-->
+<!--        <table tableName="monitor_address" enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">-->
+<!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+<!--        </table>-->
+        <table tableName="monitor_block" enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
     </context>
 </generatorConfiguration>

@@ -3,13 +3,13 @@ package org.blockchain.wallet.async;
 import lombok.RequiredArgsConstructor;
 import org.apache.dubbo.config.annotation.Reference;
 import org.blockchain.wallet.entity.MonitorAddress;
-import org.blockchain.wallet.entity.TxHistory;
 import org.blockchain.wallet.dto.blockchair.BlockchairAddrAbstract;
 import org.blockchain.wallet.dto.blockchair.BlockchairAddrTx;
+import org.blockchain.wallet.entity.MonitorTxHistory;
 import org.blockchain.wallet.resttemplate.BlockChairIRestAPI;
 import org.blockchain.wallet.service.FcmService;
 import org.blockchain.wallet.service.MonitorAddressService;
-import org.blockchain.wallet.service.TxHistoryService;
+import org.blockchain.wallet.service.MonitorTxHistoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,7 +33,7 @@ public class MonitorBlockchairAddrTask {
     BlockChairIRestAPI blockChairIRestAPI;
 
     @Reference(check = false)
-    TxHistoryService txHistoryService;
+    MonitorTxHistoryService monitorTxHistoryService;
 
     @Reference(check = false)
     FcmService fcmService;
@@ -81,10 +81,10 @@ public class MonitorBlockchairAddrTask {
 
         List<BlockchairAddrTx> transactionsAll = blockchairAddrAbstract.getTransactions();
 
-        TxHistory txHistoryFind = new TxHistory();
+        MonitorTxHistory txHistoryFind = new MonitorTxHistory();
         txHistoryFind.setSymbol("BTC");
-        List<TxHistory> txHistoryList = txHistoryService.selectBySelective(txHistoryFind);
-        for(TxHistory txHistory : txHistoryList) {
+        List<MonitorTxHistory> txHistoryList = monitorTxHistoryService.selectBySelective(txHistoryFind);
+        for(MonitorTxHistory txHistory : txHistoryList) {
             for(int i=0;i<transactionsAll.size(); i++ ){
                 if(transactionsAll.get(i).getHash().equals(txHistory.getTxHash())) {
                     transactionsAll.remove(i);
@@ -128,10 +128,10 @@ public class MonitorBlockchairAddrTask {
 
     private void insertTxHistory(String hash, String inOrOut, String address, String amount, String symbol, Date create_time) {
 
-        TxHistory txHistory = new TxHistory();
+        MonitorTxHistory txHistory = new MonitorTxHistory();
         txHistory.setTxHash(hash);
         txHistory.setSymbol(symbol);
-        if(txHistoryService.selectBySelective(txHistory).size() != 0) {
+        if(monitorTxHistoryService.selectBySelective(txHistory).size() != 0) {
             return;
         }
 
@@ -140,14 +140,6 @@ public class MonitorBlockchairAddrTask {
         txHistory.setAmount(amount);
         txHistory.setCreateTime(create_time);
 
-        txHistoryService.insertTxHistory(txHistory);
-
-        while (txHistoryService.selectCount() > txMaxSize) {
-
-            TxHistory oldestHistory = new TxHistory();
-            oldestHistory.setSymbol("BTC");
-            oldestHistory = txHistoryService.selectOldest(oldestHistory);
-            txHistoryService.deleteByPrimaryKey(oldestHistory.getId());
-        }
+        monitorTxHistoryService.insert(txHistory);
     }
 }

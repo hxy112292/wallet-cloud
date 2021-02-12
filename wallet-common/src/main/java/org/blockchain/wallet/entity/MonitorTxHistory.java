@@ -13,16 +13,20 @@ import java.util.Date;
 @Getter
 @Setter
 @ToString
-public class MonitorAddress implements Serializable {
+public class MonitorTxHistory implements Serializable {
     private Integer id;
+
+    private String txHash;
 
     private String address;
 
     private String symbol;
 
-    private String tag;
+    private String amount;
 
-    private Integer userId;
+    private String inOrOut;
+
+    private String addressTag;
 
     private Date createTime;
 
