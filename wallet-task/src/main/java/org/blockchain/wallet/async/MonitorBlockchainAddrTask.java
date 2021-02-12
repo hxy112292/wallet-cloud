@@ -104,7 +104,7 @@ public class MonitorBlockchainAddrTask {
         pageDto.setPageNum(1);
         pageDto.setPageSize(1000);
         pageDto.getParamAsMap().put("symbol", "BTC");
-        List<MonitorTxHistory> txHistoryList = monitorTxHistoryService.pageBySelective(pageDto).getResult();
+        List<String> txHistoryList = monitorTxHistoryService.pageBySelective(pageDto).getResult().stream().map((item) -> item.getTxHash()).collect(Collectors.toList());
 
         String networkInfo = sochainIRestAPI.getBTCNetWork();
         Integer blockHeight = JSONObject.parseObject(networkInfo).getJSONObject("data").getInteger("blocks");
