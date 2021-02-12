@@ -98,8 +98,9 @@ public class MonitorAddressController {
 
     @GetMapping(value = "/history/user")
     @PreAuthorize("hasRole('VIP')")
-    public BaseResponse<Page<MonitorTxHistory>> getUserTxHistory(PageDto pageDto) {
+    public BaseResponse<Page<MonitorTxHistory>> getUserTxHistory(PageDto pageDto, Authentication auth) {
 
+        pageDto.getParamAsMap().put("userId", (Integer) auth.getPrincipal());
         Page<MonitorTxHistory> txHistoryPage = monitorTxHistoryService.pageByUserId(pageDto);
 
         return new PageResponse<>(txHistoryPage, txHistoryPage.getTotal());
