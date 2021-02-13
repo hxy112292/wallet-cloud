@@ -40,6 +40,16 @@ public class JinseRestAPI implements JinseIRestAPI {
     }
 
     @Override
+    public String getLiveDetail(String id) {
+        String url = rootUrl + "/noah/v2/live/" + id;
+        Map<String,String> map=new HashMap<String,String>();
+
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, null, String.class, map);
+
+        return response.getBody();
+    }
+
+    @Override
     public String getDeepNewsList(String id) {
         String url = rootUrl + "/v6/information/list?catelogue_key={catelogue_key}&information_id={information_id}&flag={flag}&version={version}&_source={_source}";
 

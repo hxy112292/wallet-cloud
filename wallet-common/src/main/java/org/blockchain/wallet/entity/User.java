@@ -25,6 +25,12 @@ public class User implements Serializable {
 
     private String email;
 
+    private String sex;
+
+    private Date birthday;
+
+    private String description;
+
     private List<String> role;
 
     private Date createTime;

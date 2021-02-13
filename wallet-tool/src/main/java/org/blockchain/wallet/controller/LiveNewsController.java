@@ -30,6 +30,11 @@ public class LiveNewsController {
 
     }
 
+    @GetMapping(value = "detail")
+    public Object getLiveNewsDetail(String id) {
+        return jinseIRestAPI.getLiveDetail(id);
+    }
+
     @GetMapping(value = "/deep")
     public Object getDeepNewsList(@RequestParam(value = "id", required = false) String id) {
         if(id == null) {
