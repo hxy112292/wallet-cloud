@@ -98,14 +98,14 @@
 <!--               enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">-->
 <!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
 <!--        </table>-->
-        <table tableName="monitor_tx_history" enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
-        <table tableName="monitor_price" enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
+<!--        <table tableName="monitor_tx_history" enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">-->
+<!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+<!--        </table>-->
+<!--        <table tableName="monitor_price" enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">-->
+<!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+<!--        </table>-->
 <!--        <table tableName="monitor_address" enableCountByExample="false" enableUpdateByExample="false"-->
 <!--               enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">-->
 <!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
@@ -114,5 +114,19 @@
 <!--               enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">-->
 <!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
 <!--        </table>-->
+        <table tableName="live_news_comment" enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <columnOverride column="content" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <columnOverride column="sub_list" javaType="java.util.List" jdbcType="VARCHAR"
+                            typeHandler="org.blockchain.wallet.typehandler.ListTypeHandler"/>
+        </table>
+        <table tableName="deep_news_comment" enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <columnOverride column="content" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <columnOverride column="sub_list" javaType="java.util.List" jdbcType="VARCHAR"
+                            typeHandler="org.blockchain.wallet.typehandler.ListTypeHandler"/>
+        </table>
     </context>
 </generatorConfiguration>

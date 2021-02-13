@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.blockchain.wallet.mapper.LiveNewsCommentMapper">
+  <resultMap id="BaseResultMap" type="org.blockchain.wallet.entity.LiveNewsComment">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="news_id" jdbcType="VARCHAR" property="newsId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="sub_list" jdbcType="VARCHAR" property="subList" typeHandler="org.blockchain.wallet.typehandler.ListTypeHandler" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, news_id, user_id, username, content, sub_list, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from live_news_comment
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectBySelective" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from live_news_comment
+    where 1 = 1
+    <if test="newsId != null">
+      and news_id = #{newsId,jdbcType=VARCHAR}
+    </if>
+    order by create_time desc
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from live_news_comment
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.blockchain.wallet.entity.LiveNewsComment">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into live_news_comment (news_id, user_id, username,
+      content, sub_list,
+      create_time, update_time)
+    values (#{newsId,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR},
+      #{content,jdbcType=VARCHAR}, #{subList,jdbcType=VARCHAR,typeHandler=org.blockchain.wallet.typehandler.ListTypeHandler},
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="org.blockchain.wallet.entity.LiveNewsComment">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into live_news_comment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="newsId != null">
+        news_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="subList != null">
+        sub_list,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="newsId != null">
+        #{newsId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="subList != null">
+        #{subList,jdbcType=VARCHAR,typeHandler=org.blockchain.wallet.typehandler.ListTypeHandler},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.blockchain.wallet.entity.LiveNewsComment">
+    update live_news_comment
+    <set>
+      <if test="newsId != null">
+        news_id = #{newsId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="subList != null">
+        sub_list = #{subList,jdbcType=VARCHAR,typeHandler=org.blockchain.wallet.typehandler.ListTypeHandler},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.blockchain.wallet.entity.LiveNewsComment">
+    update live_news_comment
+    set news_id = #{newsId,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      username = #{username,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      sub_list = #{subList,jdbcType=VARCHAR,typeHandler=org.blockchain.wallet.typehandler.ListTypeHandler},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
