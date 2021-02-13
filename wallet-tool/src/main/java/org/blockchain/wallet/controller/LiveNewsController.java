@@ -42,7 +42,7 @@ public class LiveNewsController {
         return jinseIRestAPI.getLiveDetail(id);
     }
     @GetMapping(value = "detail/comment/list")
-    public BaseResponse<Page> getLiveNewsDetailCommentList(PageDto pageDto) {
+    public BaseResponse<Page<LiveNewsComment>> getLiveNewsDetailCommentList(PageDto pageDto) {
         Page<LiveNewsComment> page = liveNewsCommentService.pageBySelective(pageDto);
         return new PageResponse<>(page, page.getTotal());
     }
@@ -74,7 +74,7 @@ public class LiveNewsController {
         return new ResultResponse<>(jinseIRestAPI.getDeepNewsDetail(url));
     }
     @GetMapping(value = "/deep/detail/comment/list")
-    public BaseResponse<Page> getDeepNewsDetailCommentList(PageDto pageDto) {
+    public BaseResponse<Page<DeepNewsComment>> getDeepNewsDetailCommentList(PageDto pageDto) {
         Page<DeepNewsComment> page = deepNewsCommentService.pageBySelective(pageDto);
         return new PageResponse<>(page, page.getTotal());
     }
