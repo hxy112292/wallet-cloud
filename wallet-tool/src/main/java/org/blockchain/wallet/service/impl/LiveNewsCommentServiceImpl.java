@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
+
 /**
  * @author hxy
  */
@@ -27,11 +29,13 @@ public class LiveNewsCommentServiceImpl implements LiveNewsCommentService {
 
     @Override
     public int insert(LiveNewsComment liveNewsComment) {
+        liveNewsComment.setCreateTime(new Date());
         return liveNewsCommentMapper.insertSelective(liveNewsComment);
     }
 
     @Override
     public int update(LiveNewsComment liveNewsComment) {
+        liveNewsComment.setUpdateTime(new Date());
         return liveNewsCommentMapper.updateByPrimaryKeySelective(liveNewsComment);
     }
 

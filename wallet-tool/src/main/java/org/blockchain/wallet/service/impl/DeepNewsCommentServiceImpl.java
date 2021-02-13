@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
+
 /**
  * @author hxy
  */
@@ -27,11 +29,13 @@ public class DeepNewsCommentServiceImpl implements DeepNewsCommentService {
 
     @Override
     public int insert(DeepNewsComment deepNewsComment) {
+        deepNewsComment.setCreateTime(new Date());
         return deepNewsCommentMapper.insertSelective(deepNewsComment);
     }
 
     @Override
     public int update(DeepNewsComment deepNewsComment) {
+        deepNewsComment.setUpdateTime(new Date());
         return deepNewsCommentMapper.updateByPrimaryKeySelective(deepNewsComment);
     }
 

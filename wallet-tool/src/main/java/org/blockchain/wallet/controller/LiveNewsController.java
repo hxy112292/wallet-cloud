@@ -47,11 +47,11 @@ public class LiveNewsController {
         return new PageResponse<>(page, page.getTotal());
     }
     @PostMapping(value = "detail/comment")
-    public BaseResponse<Integer> insertLiveNewsDetailComment(LiveNewsComment liveNewsComment) {
+    public BaseResponse<Integer> insertLiveNewsDetailComment(@RequestBody LiveNewsComment liveNewsComment) {
         return new ResultResponse<>(liveNewsCommentService.insert(liveNewsComment));
     }
     @PutMapping(value = "detail/comment")
-    public BaseResponse<Integer> updateLiveNewsDetailComment(LiveNewsComment liveNewsComment) {
+    public BaseResponse<Integer> updateLiveNewsDetailComment(@RequestBody LiveNewsComment liveNewsComment) {
         return new ResultResponse<>(liveNewsCommentService.update(liveNewsComment));
     }
     @DeleteMapping(value = "detail/comment")
@@ -79,11 +79,11 @@ public class LiveNewsController {
         return new PageResponse<>(page, page.getTotal());
     }
     @PostMapping(value = "/deep/detail/comment")
-    public BaseResponse<Integer> insertDeepNewsDetailComment(DeepNewsComment deepNewsComment) {
+    public BaseResponse<Integer> insertDeepNewsDetailComment(@RequestBody DeepNewsComment deepNewsComment) {
         return new ResultResponse<>(deepNewsCommentService.insert(deepNewsComment));
     }
     @PutMapping(value = "/deep/detail/comment")
-    public BaseResponse<Integer> updateDeepNewsDetailComment(DeepNewsComment deepNewsComment) {
+    public BaseResponse<Integer> updateDeepNewsDetailComment(@RequestBody DeepNewsComment deepNewsComment) {
         return new ResultResponse<>(deepNewsCommentService.update(deepNewsComment));
     }
     @DeleteMapping(value = "/deep/detail/comment")
