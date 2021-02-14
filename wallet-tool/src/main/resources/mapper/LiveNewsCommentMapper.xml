@@ -11,6 +11,7 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="like_total" jdbcType="INTEGER" property="likeTotal"/>
+    <result column="is_like" jdbcType="INTEGER" javaType="java.lang.Integer" property="isLike" />
   </resultMap>
   <sql id="Base_Column_List">
     id, news_id, user_id, username, content, sub_list, create_time, update_time
@@ -20,6 +21,10 @@
     <include refid="Base_Column_List" />
     ,
     (select count(live_news_comment_like.comment_id) from live_news_comment_like where live_news_comment_like.comment_id = live_news_comment.id) as like_total
+    <if test="liker != null">
+      ,
+      EXISTS ( SELECT * FROM live_news_comment_like WHERE live_news_comment_like.user_id = #{liker, jdbcType=INTEGER} AND live_news_comment_like.comment_id = live_news_comment.id ) AS is_like
+    </if>
     from live_news_comment
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -28,6 +33,10 @@
     <include refid="Base_Column_List" />
     ,
     (select count(live_news_comment_like.comment_id) from live_news_comment_like where live_news_comment_like.comment_id = live_news_comment.id) as like_total
+    <if test="liker != null">
+      ,
+      EXISTS ( SELECT * FROM live_news_comment_like WHERE live_news_comment_like.user_id = #{liker, jdbcType=INTEGER} AND live_news_comment_like.comment_id = live_news_comment.id ) AS is_like
+    </if>
     from live_news_comment
     where 1 = 1
     <if test="newsId != null">

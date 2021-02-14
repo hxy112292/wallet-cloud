@@ -33,5 +33,7 @@ public class DeepNewsComment implements Serializable {
 
     private Integer likeTotal;
 
+    private Integer isLike;
+
     private static final long serialVersionUID = 1L;
 }
