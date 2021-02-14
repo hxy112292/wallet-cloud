@@ -10,6 +10,7 @@
     <result column="sub_list" jdbcType="VARCHAR" property="subList" typeHandler="org.blockchain.wallet.typehandler.ListTypeHandler" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="like_total" jdbcType="INTEGER" property="likeTotal"/>
   </resultMap>
   <sql id="Base_Column_List">
     id, news_id, user_id, username, content, sub_list, create_time, update_time
@@ -17,12 +18,16 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
+    ,
+    (select count(live_news_comment_like.comment_id) from live_news_comment_like where live_news_comment_like.comment_id = live_news_comment.id) as like_total
     from live_news_comment
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectBySelective" parameterType="map" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
+    ,
+    (select count(live_news_comment_like.comment_id) from live_news_comment_like where live_news_comment_like.comment_id = live_news_comment.id) as like_total
     from live_news_comment
     where 1 = 1
     <if test="newsId != null">

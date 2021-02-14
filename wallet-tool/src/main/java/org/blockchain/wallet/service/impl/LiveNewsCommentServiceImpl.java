@@ -4,6 +4,8 @@ import com.github.pagehelper.Page;
 import lombok.RequiredArgsConstructor;
 import org.blockchain.wallet.dto.PageDto;
 import org.blockchain.wallet.entity.LiveNewsComment;
+import org.blockchain.wallet.entity.LiveNewsCommentLike;
+import org.blockchain.wallet.mapper.LiveNewsCommentLikeMapper;
 import org.blockchain.wallet.mapper.LiveNewsCommentMapper;
 import org.blockchain.wallet.service.LiveNewsCommentService;
 import org.springframework.transaction.annotation.Isolation;
@@ -21,6 +23,7 @@ import java.util.Date;
 public class LiveNewsCommentServiceImpl implements LiveNewsCommentService {
 
     private final LiveNewsCommentMapper liveNewsCommentMapper;
+    private final LiveNewsCommentLikeMapper liveNewsCommentLikeMapper;
 
     @Override
     public Page<LiveNewsComment> pageBySelective(PageDto pageDto) {
@@ -42,5 +45,20 @@ public class LiveNewsCommentServiceImpl implements LiveNewsCommentService {
     @Override
     public int delete(int id) {
         return liveNewsCommentMapper.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public int insertLike(LiveNewsCommentLike liveNewsCommentLike) {
+        return liveNewsCommentLikeMapper.insert(liveNewsCommentLike);
+    }
+
+    @Override
+    public int deleteLike(LiveNewsCommentLike liveNewsCommentLike) {
+        return liveNewsCommentLikeMapper.deleteBySelective(liveNewsCommentLike);
+    }
+
+    @Override
+    public boolean isLike(LiveNewsCommentLike liveNewsCommentLike) {
+        return liveNewsCommentLikeMapper.selectBySelective(liveNewsCommentLike).size() != 0;
     }
 }

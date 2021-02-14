@@ -31,5 +31,7 @@ public class LiveNewsComment implements Serializable {
 
     private Date updateTime;
 
+    private Integer likeTotal;
+
     private static final long serialVersionUID = 1L;
 }
