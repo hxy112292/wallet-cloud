@@ -68,7 +68,7 @@ public class LiveNewsController {
         return new ResultResponse<>(liveNewsCommentService.insertLike(liveNewsCommentLike));
     }
     @DeleteMapping(value = "detail/comment/like")
-    public BaseResponse<Integer> deleteLiveNewsDetailCommentLike(@RequestBody LiveNewsCommentLike liveNewsCommentLike, Authentication auth) {
+    public BaseResponse<Integer> deleteLiveNewsDetailCommentLike(LiveNewsCommentLike liveNewsCommentLike, Authentication auth) {
         liveNewsCommentLike.setUserId((Integer) auth.getPrincipal());
         return new ResultResponse<>(liveNewsCommentService.deleteLike(liveNewsCommentLike));
     }
@@ -118,7 +118,7 @@ public class LiveNewsController {
         return new ResultResponse<>(deepNewsCommentService.insertLike(deepNewsCommentLike));
     }
     @DeleteMapping(value = "deep/detail/comment/like")
-    public BaseResponse<Integer> deleteDeepNewsDetailCommentLike(@RequestBody DeepNewsCommentLike deepNewsCommentLike, Authentication auth) {
+    public BaseResponse<Integer> deleteDeepNewsDetailCommentLike(DeepNewsCommentLike deepNewsCommentLike, Authentication auth) {
         deepNewsCommentLike.setUserId((Integer) auth.getPrincipal());
         return new ResultResponse<>(deepNewsCommentService.deleteLike(deepNewsCommentLike));
     }
