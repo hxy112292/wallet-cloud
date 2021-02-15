@@ -469,10 +469,11 @@ public class DNCRestAPI implements DNCIRestAPI {
 
     @Override
     public String getMiningPoolList() {
-        String url = rankUrl + "/api/v2/Defi/mining/pool?webp={webp}";
+        String url = rankUrl + "/api/v2/defi/mining/list/page?per_page={per_page}&webp={webp}";
 
         Map<String,String> map=new HashMap<String,String>();
         map.put("webp","1");
+        map.put("per_page", "100");
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, null, String.class, map);
 
         return response.getBody();
