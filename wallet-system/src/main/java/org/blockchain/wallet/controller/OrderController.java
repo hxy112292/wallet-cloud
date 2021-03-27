@@ -58,7 +58,7 @@ public class OrderController {
     @PostMapping
     public BaseResponse<Order> insert(@RequestBody Order order, Authentication auth) {
         order.setUserId((Integer)auth.getPrincipal());
-        order.setStatus(Constant.ORDER_STATUS_NOT_PAY);
+        order.setStatus(Constant.ORDER_STATUS_PAID);
         String orderId = UUIDUtil.getUUID();
         order.setId(orderId);
         orderService.insert(order);
