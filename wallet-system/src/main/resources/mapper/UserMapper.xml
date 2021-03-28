@@ -47,20 +47,13 @@
       and phone = #{phone, jdbcType=VARCHAR}
     </if>
   </select>
-  <select id="findAccount" parameterType="org.blockchain.wallet.entity.User" resultMap="BaseResultMap">
+  <select id="findAccount" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
-    <include refid="Base_Column_List" />
+    <include refid="Base_Column_List"/>
     from wallet_user
-    where  1 = 1
-    <if test="username != null">
-      and username = #{username, jdbcType=VARCHAR}
-    </if>
-    <if test="email != null">
-      and email = #{email, jdbcType=VARCHAR}
-    </if>
-    <if test="phone != null">
-      and phone = #{phone, jdbcType=VARCHAR}
-    </if>
+    where username = #{account,jdbcType=VARCHAR}
+    or phone = #{account,jdbcType=VARCHAR}
+    or email = #{account,jdbcType=VARCHAR}
     limit 1
   </select>
   <select id="findVipExpiration" parameterType="org.blockchain.wallet.entity.User" resultMap="BaseResultMap">

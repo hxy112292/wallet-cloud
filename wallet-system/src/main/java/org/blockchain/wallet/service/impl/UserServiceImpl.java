@@ -38,21 +38,21 @@ public class UserServiceImpl implements UserService {
         User userDto = new User();
         if(user.getUsername() != null) {
             userDto.setUsername(user.getUsername());
-            userDto = userMapper.findAccount(userDto);
+            userDto = userMapper.findAccount(user.getUsername());
             Preconditions.checkArgument((userDto == null), ErrorMessage.USERNAME_EXIST);
         }
 
         if(user.getEmail() != null) {
             userDto = new User();
             userDto.setEmail(user.getEmail());
-            userDto = userMapper.findAccount(userDto);
+            userDto = userMapper.findAccount(user.getEmail());
             Preconditions.checkArgument((userDto==null), ErrorMessage.EMAIL_EXIST);
         }
 
         if(user.getPhone() != null) {
             userDto = new User();
             userDto.setPhone(user.getPhone());
-            userDto = userMapper.findAccount(userDto);
+            userDto = userMapper.findAccount(user.getPhone());
             Preconditions.checkArgument((userDto == null), ErrorMessage.PHONE_EXIST);
         }
         List<String> roles = Lists.newArrayList(Constant.ROLE_PREFIX + Constant.USER);
@@ -87,7 +87,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User login(User userDto) {
 
-        User user = userMapper.findAccount(userDto);
+        User user = userMapper.findAccount(userDto.getUsername());
         Preconditions.checkNotNull(user, ErrorMessage.ACCOUNT_NOT_FOUND);
         Preconditions.checkArgument(passwordEncoder.matches(userDto.getPassword(), user.getPassword()), ErrorMessage.ACCOUNT_PASSWORD_ERROR);
         String token = jwtUtils.encode(user.getId(), user.getRole());

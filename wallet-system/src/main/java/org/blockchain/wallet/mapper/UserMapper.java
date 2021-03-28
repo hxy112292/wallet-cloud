@@ -28,7 +28,7 @@ public interface UserMapper {
 
     Page<User> selectBySelective(Map<String, Object> param);
 
-    User findAccount(User record);
+    User findAccount(String account);
 
     int forgetPassword(User record);
 
