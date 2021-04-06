@@ -8,6 +8,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.blockchain.wallet.constant.Constant;
 import org.blockchain.wallet.constant.ErrorMessage;
 import org.blockchain.wallet.dto.PageDto;
+import org.blockchain.wallet.dto.Password;
 import org.blockchain.wallet.entity.User;
 import org.blockchain.wallet.mapper.UserMapper;
 import org.blockchain.wallet.service.UserService;
@@ -106,11 +107,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public User forgetPassword(User user) {
         Preconditions.checkArgument((findUserBySelective(user).size() != 0), ErrorMessage.ACCOUNT_NOT_FOUND);
-        user.setPassword(RandomStringUtils.randomAlphanumeric(8));
+        String password = RandomStringUtils.randomAlphanumeric(8);
+        user.setPassword(passwordEncoder.encode(password));
         user.setUpdateTime(new Date());
         userMapper.forgetPassword(user);
-        List<User> userList = findUserBySelective(user);
-        return userList.get(0);
+        user.setPassword(password);
+        return user;
+    }
+
+    @Override
+    public User updatePassword(User user, Password password) {
+        Preconditions.checkArgument(passwordEncoder.matches(password.getOldPassword(), user.getPassword()), ErrorMessage.ACCOUNT_PASSWORD_ERROR);
+        user.setPassword(passwordEncoder.encode(password.getNewPassword()));
+        user.setUpdateTime(new Date());
+        updateUser(user);
+        return user;
     }
 
     @Override

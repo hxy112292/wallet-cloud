@@ -3,6 +3,7 @@ package org.blockchain.wallet.service;
 
 import com.github.pagehelper.Page;
 import org.blockchain.wallet.dto.PageDto;
+import org.blockchain.wallet.dto.Password;
 import org.blockchain.wallet.entity.User;
 
 import java.util.List;
@@ -25,6 +26,8 @@ public interface UserService {
     User updateUser(User user);
 
     User forgetPassword(User user);
+
+    User updatePassword(User user, Password password);
 
     List<User> findVipExpiration(User user);
 }

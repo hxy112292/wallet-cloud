@@ -216,7 +216,7 @@
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where username = #{username,jdbcType=VARCHAR} and email = #{email,jdbcType=VARCHAR}
+    where email = #{email,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="org.blockchain.wallet.entity.User">
     update wallet_user
