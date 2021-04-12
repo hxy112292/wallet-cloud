@@ -116,7 +116,7 @@ public class JinseRestAPI implements JinseIRestAPI {
         String url = rootUrl + "/v6/information/list?catelogue_key={catelogue_key}&information_id={information_id}&flag={flag}&version={version}&limit={limit}";
 
         Map<String,String> map=new HashMap<String,String>();
-        map.put("catelogue_key", "capitalmarket");
+        map.put("catelogue_key", "zhuanlantuijian");
         map.put("information_id", id);
         map.put("flag", "down");
         map.put("version", "9.9.9");
