@@ -12,4 +12,8 @@ public interface JinseIRestAPI {
     String getCoinNews(String code, String page);
 
     String getFomoGroup();
+
+    String getCommonNewsList(String id);
+
+    String getCommonNewsDetail(String url);
 }

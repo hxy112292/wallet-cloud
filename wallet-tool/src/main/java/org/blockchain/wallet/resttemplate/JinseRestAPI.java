@@ -110,4 +110,33 @@ public class JinseRestAPI implements JinseIRestAPI {
 
         return response.getBody();
     }
+
+    @Override
+    public String getCommonNewsList(String id) {
+        String url = rootUrl + "/v6/information/list?catelogue_key={catelogue_key}&information_id={information_id}&flag={flag}&version={version}&limit={limit}";
+
+        Map<String,String> map=new HashMap<String,String>();
+        map.put("catelogue_key", "capitalmarket");
+        map.put("information_id", id);
+        map.put("flag", "down");
+        map.put("version", "9.9.9");
+        map.put("limit", "10");
+
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, null, String.class, map);
+
+        return response.getBody();
+    }
+
+    @Override
+    public String getCommonNewsDetail(String url) {
+        Map<String,String> map=new HashMap<String,String>();
+
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, null, String.class, map);
+
+        String result = response.getBody();
+
+        Document doc =  Jsoup.parse(result);
+
+        return doc.getElementById("article-content").toString();
+    }
 }
