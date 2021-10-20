@@ -68,6 +68,8 @@ public class JinseRestAPI implements JinseIRestAPI {
     @Override
     public String getDeepNewsDetail(String url) {
 
+        url = url.replace("www", "m");
+
         Map<String,String> map=new HashMap<String,String>();
 
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, null, String.class, map);
