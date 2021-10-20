@@ -84,14 +84,14 @@ public class LiveNewsController {
     @GetMapping(value = "/deep")
     public Object getDeepNewsList(@RequestParam(value = "id", required = false) String id) {
         if(id == null) {
-            return jinseIRestAPI.getCommonNewsList("");
+            return jinseIRestAPI.getDeepNewsList("");
         } else {
-            return jinseIRestAPI.getCommonNewsList(id);
+            return jinseIRestAPI.getDeepNewsList(id);
         }
     }
     @GetMapping(value = "/deep/detail")
     public BaseResponse<String> getDeepNewsDetail(@RequestParam String url) {
-        return new ResultResponse<>(jinseIRestAPI.getCommonNewsDetail(url));
+        return new ResultResponse<>(jinseIRestAPI.getDeepNewsDetail(url));
     }
     @GetMapping(value = "/deep/detail/comment/list")
     public BaseResponse<Page<DeepNewsComment>> getDeepNewsDetailCommentList(PageDto pageDto) {
