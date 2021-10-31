@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
-import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
@@ -24,9 +23,6 @@ public class DNCRestAPI implements DNCIRestAPI {
 
     @Value("${dnc.root.url}")
     String rootUrl;
-
-    @Value("${dnc.rank.url}")
-    String rankUrl;
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -277,7 +273,7 @@ public class DNCRestAPI implements DNCIRestAPI {
 
     @Override
     public String getLargePosition(String type) {
-        String url = rankUrl + "/api/v3/discover/large_position?page={page}&pre_page={pre_page}&type={type}&webp={webp}";
+        String url = rootUrl + "/api/v3/discover/large_position?page={page}&pre_page={pre_page}&type={type}&webp={webp}";
 
         Map<String,String> map=new HashMap<String,String>();
         map.put("page", "1");
@@ -293,7 +289,7 @@ public class DNCRestAPI implements DNCIRestAPI {
 
     @Override
     public String getAddressRank(String type) {
-        String url = rankUrl + "/api/v3/discover/address_rank?page={page}&pre_page={pre_page}&type={type}&webp={webp}";
+        String url = rootUrl + "/api/v3/discover/address_rank?page={page}&pre_page={pre_page}&type={type}&webp={webp}";
 
         Map<String,String> map=new HashMap<String,String>();
         map.put("page", "1");
@@ -309,7 +305,7 @@ public class DNCRestAPI implements DNCIRestAPI {
 
     @Override
     public String getHolderList(String code) {
-        String url = rankUrl + "/api/v3/coin/holders?code={code}&webp={webp}";
+        String url = rootUrl + "/api/v3/coin/holders?code={code}&webp={webp}";
 
         Map<String,String> map=new HashMap<String,String>();
         map.put("webp","1");
@@ -323,7 +319,7 @@ public class DNCRestAPI implements DNCIRestAPI {
 
     @Override
     public String getHotSocial(String code) {
-        String url = rankUrl + "/api/v3/coin/hotsocial?coincode={coincode}&webp={webp}";
+        String url = rootUrl + "/api/v3/coin/hotsocial?coincode={coincode}&webp={webp}";
 
         Map<String,String> map=new HashMap<String,String>();
         map.put("webp","1");
@@ -337,7 +333,7 @@ public class DNCRestAPI implements DNCIRestAPI {
 
     @Override
     public String getReduceHalf(String code) {
-        String url = rankUrl + "/api/v4/reducehalf/info?coincode={coincode}&webp={webp}";
+        String url = rootUrl + "/api/v4/reducehalf/info?coincode={coincode}&webp={webp}";
 
         Map<String,String> map=new HashMap<String,String>();
         map.put("webp","1");
@@ -351,7 +347,7 @@ public class DNCRestAPI implements DNCIRestAPI {
 
     @Override
     public String getMarketTrend() {
-        String url = rankUrl + "/api/v3/coin/markettrend?webp={webp}";
+        String url = rootUrl + "/api/v3/coin/markettrend?webp={webp}";
 
         Map<String,String> map=new HashMap<String,String>();
         map.put("webp","1");
@@ -363,7 +359,7 @@ public class DNCRestAPI implements DNCIRestAPI {
 
     @Override
     public String getGrayscaleCoinInfo() {
-        String url = rankUrl + "/api/v2/grayscale/info?coincode={coincode}&webp={webp}";
+        String url = rootUrl + "/api/v2/grayscale/info?coincode={coincode}&webp={webp}";
 
         Map<String,String> map=new HashMap<String,String>();
         map.put("webp","1");
@@ -376,7 +372,7 @@ public class DNCRestAPI implements DNCIRestAPI {
 
     @Override
     public String getGrayscaleGBTCPrice() {
-        String url = rankUrl + "/api/v2/grayscale/index_price?coincode={coincode}&webp={webp}";
+        String url = rootUrl + "/api/v2/grayscale/index_price?coincode={coincode}&webp={webp}";
 
         Map<String,String> map=new HashMap<String,String>();
         map.put("webp","1");
@@ -389,7 +385,7 @@ public class DNCRestAPI implements DNCIRestAPI {
 
     @Override
     public String getGrayScaleOrganization() {
-        String url = rankUrl + "/api/v2/grayscale/Index_Orgnization?webp={webp}";
+        String url = rootUrl + "/api/v2/grayscale/Index_Orgnization?webp={webp}";
 
         Map<String,String> map=new HashMap<String,String>();
         map.put("webp","1");
@@ -401,7 +397,7 @@ public class DNCRestAPI implements DNCIRestAPI {
 
     @Override
     public String getGrayscaleCoinList() {
-        String url = rankUrl + "/api/v3/grayscale/index_list?webp={webp}";
+        String url = rootUrl + "/api/v3/grayscale/index_list?webp={webp}";
 
         Map<String,String> map=new HashMap<String,String>();
         map.put("webp","1");
@@ -413,7 +409,7 @@ public class DNCRestAPI implements DNCIRestAPI {
 
     @Override
     public String getGrayscaleOpenTrend() {
-        String url = rankUrl + "/api/v2/grayscale/Index_trend?symbol={symbol}&type={type}&length={length}&webp={webp}";
+        String url = rootUrl + "/api/v2/grayscale/Index_trend?symbol={symbol}&type={type}&length={length}&webp={webp}";
 
         Map<String,String> map=new HashMap<String,String>();
         map.put("symbol","BTC");
@@ -428,7 +424,7 @@ public class DNCRestAPI implements DNCIRestAPI {
 
     @Override
     public String getDefiWorthTrend() {
-        String url = rankUrl + "/api/v2/defi/worth/trend?type={type}&datetype={datetype}&webp={webp}";
+        String url = rootUrl + "/api/v2/defi/worth/trend?type={type}&datetype={datetype}&webp={webp}";
 
         Map<String,String> map=new HashMap<String,String>();
         map.put("datetype","all");
@@ -442,7 +438,7 @@ public class DNCRestAPI implements DNCIRestAPI {
 
     @Override
     public String getLockUpList() {
-        String url = rankUrl + "/api/v2/Defi/newlockup/list/page?per_page={per_page}&typeid={typeid}&webp={webp}";
+        String url = rootUrl + "/api/v2/Defi/newlockup/list/page?per_page={per_page}&typeid={typeid}&webp={webp}";
 
         Map<String,String> map=new HashMap<String,String>();
         map.put("per_page","100");
@@ -456,7 +452,7 @@ public class DNCRestAPI implements DNCIRestAPI {
 
     @Override
     public String getRateList(String type) {
-        String url = rankUrl + "/api/v2/defi/rate/list?type={type}&webp={webp}";
+        String url = rootUrl + "/api/v2/defi/rate/list?type={type}&webp={webp}";
 
         Map<String,String> map=new HashMap<String,String>();
         map.put("type", type);
@@ -469,7 +465,7 @@ public class DNCRestAPI implements DNCIRestAPI {
 
     @Override
     public String getMiningPoolList() {
-        String url = rankUrl + "/api/v2/defi/mining/list/page?per_page={per_page}&webp={webp}";
+        String url = rootUrl + "/api/v2/defi/mining/list/page?per_page={per_page}&webp={webp}";
 
         Map<String,String> map=new HashMap<String,String>();
         map.put("webp","1");
@@ -482,7 +478,7 @@ public class DNCRestAPI implements DNCIRestAPI {
 
     @Override
     public String getWorthList() {
-        String url = rankUrl + "/api/v2/defi/worth/list?type={type}&webp={webp}";
+        String url = rootUrl + "/api/v2/defi/worth/list?type={type}&webp={webp}";
 
         Map<String,String> map=new HashMap<String,String>();
         map.put("type", "0");
@@ -495,7 +491,7 @@ public class DNCRestAPI implements DNCIRestAPI {
 
     @Override
     public String getDefiWorth() {
-        String url = rankUrl + "/api/v2/defi/worth?type={type}&webp={webp}";
+        String url = rootUrl + "/api/v2/defi/worth?type={type}&webp={webp}";
 
         Map<String,String> map=new HashMap<String,String>();
         map.put("type", "2");
@@ -507,7 +503,7 @@ public class DNCRestAPI implements DNCIRestAPI {
 
     @Override
     public String getEthData() {
-        String url = rankUrl + "/api/v2/defi/ethdata?datetype={datetype}&webp={webp}";
+        String url = rootUrl + "/api/v2/defi/ethdata?datetype={datetype}&webp={webp}";
 
         Map<String,String> map=new HashMap<String,String>();
         map.put("datetype", "3");
